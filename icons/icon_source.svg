@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#6b0f0f"/>
+  
+  <!-- Outer geometric border -->
+  <rect x="18" y="18" width="476" height="476" fill="none" stroke="#c9a84c" stroke-width="3"/>
+  <rect x="28" y="28" width="456" height="456" fill="none" stroke="#c9a84c" stroke-width="1"/>
+  
+  <!-- Corner ornaments -->
+  <g fill="none" stroke="#c9a84c" stroke-width="2.5">
+    <line x1="18" y1="62" x2="62" y2="62"/>
+    <line x1="62" y1="18" x2="62" y2="62"/>
+    <line x1="450" y1="62" x2="494" y2="62"/>
+    <line x1="450" y1="18" x2="450" y2="62"/>
+    <line x1="18" y1="450" x2="62" y2="450"/>
+    <line x1="62" y1="450" x2="62" y2="494"/>
+    <line x1="450" y1="450" x2="494" y2="450"/>
+    <line x1="450" y1="450" x2="450" y2="494"/>
+  </g>
+  
+  <!-- Decorative horizontal lines -->
+  <line x1="50" y1="115" x2="462" y2="115" stroke="#c9a84c" stroke-width="1" opacity="0.7"/>
+  <line x1="50" y1="388" x2="462" y2="388" stroke="#c9a84c" stroke-width="1" opacity="0.7"/>
+  
+  <!-- Top text: 台灣料理教室 in Noto Serif CJK TC -->
+  <text x="256" y="100" 
+        font-family="Noto Serif CJK TC" 
+        font-size="36" font-weight="bold" 
+        fill="#c9a84c" text-anchor="middle" letter-spacing="3">台灣料理教室</text>
+  
+  <!-- Center: 陳 large -->
+  <text x="256" y="305" 
+        font-family="Noto Serif CJK TC" 
+        font-size="210" font-weight="bold" 
+        fill="#c9a84c" text-anchor="middle">陳</text>
+  
+  <!-- Bottom text CHEN -->
+  <text x="256" y="432" 
+        font-family="Georgia, serif" 
+        font-size="28" font-weight="normal" 
+        fill="#c9a84c" text-anchor="middle" letter-spacing="8">CHEN</text>
+  
+  <!-- Diamond decorations -->
+  <polygon points="256,122 263,129 256,136 249,129" fill="#c9a84c"/>
+  <polygon points="256,372 263,379 256,386 249,379" fill="#c9a84c"/>
+</svg>

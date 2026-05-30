@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#6b0f0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="陳 料理教室">
+<title>台灣料理教室 陳</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192x192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crimson: #6b0f0f;
+    --crimson-dark: #4a0808;
+    --crimson-light: #8b1a1a;
+    --gold: #c9a84c;
+    --gold-light: #e8cc80;
+    --gold-dim: #9a7a30;
+    --cream: #f5edd8;
+    --text-dark: #2a1505;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--crimson);
+    color: var(--cream);
+    font-family: 'Noto Serif TC', serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--crimson-dark);
+    border-bottom: 2px solid var(--gold);
+    padding: 12px 16px 8px;
+    text-align: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  header .title-zh {
+    font-size: 18px; font-weight: 700; color: var(--gold);
+    letter-spacing: 4px;
+  }
+  header .title-en {
+    font-size: 10px; font-family: 'Playfair Display', serif;
+    color: var(--gold-dim); letter-spacing: 3px; margin-top: 2px;
+  }
+  header .gold-line {
+    width: 120px; height: 1px; background: var(--gold-dim);
+    margin: 6px auto 0;
+  }
+
+  /* ── Tab Bar ── */
+  .tab-bar {
+    display: flex;
+    background: var(--crimson-dark);
+    border-bottom: 1px solid var(--gold-dim);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 1; min-width: 70px;
+    padding: 10px 4px 8px;
+    background: none; border: none; cursor: pointer;
+    color: var(--gold-dim);
+    font-family: 'Noto Serif TC', serif;
+    font-size: 12px; text-align: center;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+  .tab-btn .tab-icon { font-size: 18px; display: block; margin-bottom: 2px; }
+
+  /* ── Content ── */
+  .page { display: none; padding: 16px; }
+  .page.active { display: block; }
+
+  /* ── Cards ── */
+  .card {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid var(--gold-dim);
+    border-radius: 4px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .card-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .date-text { font-size: 20px; font-weight: 700; color: var(--gold); }
+  .date-sub { font-size: 12px; color: var(--gold-dim); margin-top: 2px; }
+
+  /* Status badge */
+  .badge {
+    padding: 4px 10px; border-radius: 2px;
+    font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  }
+  .badge-green  { background: #1a4a1a; color: #6fcf6f; border: 1px solid #6fcf6f; }
+  .badge-yellow { background: #4a3a00; color: #f0c040; border: 1px solid #f0c040; }
+  .badge-red    { background: #4a0808; color: #ff6060; border: 1px solid #ff6060; }
+
+  /* Progress bar */
+  .progress-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+  .progress-bar-bg {
+    flex: 1; height: 8px; background: rgba(255,255,255,0.1);
+    border-radius: 4px; overflow: hidden;
+  }
+  .progress-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+  .fill-green  { background: #4caf50; }
+  .fill-yellow { background: #ffc107; }
+  .fill-red    { background: #f44336; }
+  .progress-label { font-size: 13px; color: var(--cream); min-width: 60px; text-align: right; }
+
+  /* State select */
+  .state-row { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+  .state-row label { font-size: 12px; color: var(--gold-dim); }
+  .state-select {
+    background: var(--crimson-dark);
+    border: 1px solid var(--gold-dim);
+    color: var(--cream);
+    padding: 5px 8px; border-radius: 2px;
+    font-family: 'Noto Serif TC', serif; font-size: 13px;
+    flex: 1;
+  }
+
+  /* ── Forms ── */
+  .form-section { margin-bottom: 20px; }
+  .form-title {
+    font-size: 14px; color: var(--gold);
+    border-bottom: 1px solid var(--gold-dim);
+    padding-bottom: 6px; margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+  .form-group { margin-bottom: 14px; }
+  .form-group label {
+    display: block; font-size: 13px; color: var(--gold-dim);
+    margin-bottom: 5px; letter-spacing: 1px;
+  }
+  .form-control {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--gold-dim);
+    color: var(--cream);
+    padding: 10px 12px; border-radius: 2px;
+    font-family: 'Noto Serif TC', serif; font-size: 15px;
+    -webkit-appearance: none;
+  }
+  .form-control:focus { outline: none; border-color: var(--gold); }
+  .form-control option { background: var(--crimson-dark); }
+
+  /* ── Buttons ── */
+  .btn {
+    width: 100%; padding: 14px;
+    background: var(--gold);
+    color: var(--crimson-dark);
+    border: none; border-radius: 2px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 2px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn:active { background: var(--gold-light); }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    margin-top: 8px;
+  }
+
+  /* ── Section headers ── */
+  .section-title {
+    font-size: 13px; color: var(--gold);
+    letter-spacing: 3px;
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .section-title::before, .section-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--gold-dim);
+  }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--crimson-dark);
+    padding: 10px 20px; border-radius: 2px;
+    font-size: 14px; font-weight: 700;
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    white-space: nowrap; z-index: 999;
+  }
+  .toast.show { opacity: 1; }
+
+  /* ── Relative info ── */
+  .info-row {
+    display: flex; gap: 16px; margin-top: 6px;
+  }
+  .info-chip {
+    font-size: 12px; color: var(--cream); opacity: 0.8;
+  }
+  .info-chip span { color: var(--gold); font-weight: 700; }
+
+  /* ── Consultation list ── */
+  .consult-card {
+    background: rgba(0,0,0,0.2);
+    border-left: 3px solid var(--gold);
+    padding: 10px 12px; margin-bottom: 10px;
+    border-radius: 0 4px 4px 0;
+  }
+  .consult-name { font-size: 16px; color: var(--gold); margin-bottom: 4px; }
+  .consult-detail { font-size: 12px; color: var(--cream); opacity: 0.8; line-height: 1.8; }
+
+  /* ── Empty state ── */
+  .empty-state {
+    text-align: center; padding: 40px 20px;
+    color: var(--gold-dim); font-size: 14px; letter-spacing: 1px;
+  }
+  .empty-state .empty-icon { font-size: 36px; margin-bottom: 12px; }
+
+  /* ── Decorative border ── */
+  .deco-border {
+    border: 1px solid var(--gold-dim);
+    border-radius: 2px;
+    padding: 16px;
+    position: relative;
+  }
+  .deco-border::before {
+    content: '◆';
+    position: absolute; top: -8px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--crimson);
+    padding: 0 6px;
+    color: var(--gold-dim); font-size: 10px;
+  }
+
+  @media (min-width: 480px) {
+    .page { max-width: 480px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title-zh">台灣料理教室　陳</div>
+  <div class="title-en">TAIWAN COOKING CLASS CHEN</div>
+  <div class="gold-line"></div>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('schedule')">
+    <span class="tab-icon">📋</span>日程一覧
+  </button>
+  <button class="tab-btn" onclick="showTab('register')">
+    <span class="tab-icon">✍️</span>申込登録
+  </button>
+  <button class="tab-btn" onclick="showTab('consult')">
+    <span class="tab-icon">🔄</span>移動相談
+  </button>
+  <button class="tab-btn" onclick="showTab('add')">
+    <span class="tab-icon">➕</span>日程追加
+  </button>
+</nav>
+
+<!-- ════════════ TAB 1: 日程一覧 ════════════ -->
+<div id="page-schedule" class="page active">
+  <div class="section-title">開催日程</div>
+  <div id="schedule-list"></div>
+</div>
+
+<!-- ════════════ TAB 2: 申込登録 ════════════ -->
+<div id="page-register" class="page">
+  <div class="deco-border">
+    <div class="form-section">
+      <div class="form-title">── 申込者情報 ──</div>
+      <div class="form-group">
+        <label>お名前</label>
+        <input class="form-control" id="reg-name" type="text" placeholder="例：山田 花子">
+      </div>
+      <div class="form-group">
+        <label>参加人数</label>
+        <select class="form-control" id="reg-count">
+          <option value="1">1名</option>
+          <option value="2">2名</option>
+          <option value="3">3名</option>
+          <option value="4">4名</option>
+          <option value="5">5名</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>希望日程（第一希望）</label>
+        <select class="form-control" id="reg-first"></select>
+      </div>
+      <div class="form-group">
+        <label>希望日程（第二希望）</label>
+        <select class="form-control" id="reg-second">
+          <option value="">なし</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>日程変更の相談</label>
+        <select class="form-control" id="reg-flexible">
+          <option value="no">希望しない</option>
+          <option value="yes">可能であれば相談したい</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="registerApplicant()">申込を登録する</button>
+  </div>
+</div>
+
+<!-- ════════════ TAB 3: 移動相談 ════════════ -->
+<div id="page-consult" class="page">
+  <div class="section-title">要調整の日程</div>
+  <div id="danger-list"></div>
+  <div class="section-title" style="margin-top:20px">移動相談できる申込者</div>
+  <div id="consult-list"></div>
+</div>
+
+<!-- ════════════ TAB 4: 日程追加 ════════════ -->
+<div id="page-add" class="page">
+  <div class="deco-border">
+    <div class="form-section">
+      <div class="form-title">── 新しい日程 ──</div>
+      <div class="form-group">
+        <label>開催日</label>
+        <input class="form-control" id="add-date" type="date">
+      </div>
+      <div class="form-group">
+        <label>曜日・時間帯（メモ）</label>
+        <input class="form-control" id="add-label" type="text" placeholder="例：土曜 午前10時〜">
+      </div>
+      <div class="form-group">
+        <label>定員（人数）</label>
+        <select class="form-control" id="add-capacity">
+          <option value="4">4名</option>
+          <option value="5">5名</option>
+          <option value="6" selected>6名</option>
+          <option value="7">7名</option>
+          <option value="8">8名</option>
+          <option value="10">10名</option>
+          <option value="12">12名</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="addSchedule()">日程を追加する</button>
+  </div>
+
+  <div style="margin-top:24px">
+    <div class="section-title">登録済み日程一覧</div>
+    <div id="admin-list"></div>
+    <button class="btn btn-outline" onclick="if(confirm('全データを初期化しますか？')) { localStorage.clear(); init(); }">
+      ⚠️ データをリセット
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── Data storage ───
+function getData() {
+  try {
+    return JSON.parse(localStorage.getItem('taiwan_cc') || 'null') || { schedules: [], applicants: [] };
+  } catch { return { schedules: [], applicants: [] }; }
+}
+function saveData(d) {
+  localStorage.setItem('taiwan_cc', JSON.stringify(d));
+}
+
+// ─── Days of week ───
+const DOW = ['日','月','火','水','木','金','土'];
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return `${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）`;
+}
+
+// ─── Status logic ───
+function getStatus(schedule, data) {
+  const count = data.applicants.filter(a => a.first === schedule.id).reduce((s,a) => s + a.count, 0);
+  const pct = count / schedule.capacity;
+  if (pct >= 1) return { label:'満員', cls:'badge-red', fillCls:'fill-red' };
+  if (pct >= 0.8) return { label:'残わずか', cls:'badge-yellow', fillCls:'fill-yellow' };
+  return { label:'受付中', cls:'badge-green', fillCls:'fill-green' };
+}
+
+// ─── Render: schedule list ───
+function renderSchedule() {
+  const data = getData();
+  const el = document.getElementById('schedule-list');
+  if (!data.schedules.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div>日程が登録されていません<br><br>「日程追加」タブから追加してください</div>';
+    return;
+  }
+  // Sort by date
+  const sorted = [...data.schedules].sort((a,b) => a.date.localeCompare(b.date));
+  el.innerHTML = sorted.map(s => {
+    const booked = data.applicants.filter(a => a.first === s.id).reduce((sum,a) => sum+a.count, 0);
+    const remain = s.capacity - booked;
+    const pct = Math.min(booked / s.capacity, 1);
+    const st = getStatus(s, data);
+    const stateOpts = ['受付中','要相談','満員','中止'].map(v =>
+      `<option value="${v}" ${s.state===v?'selected':''}>${v}</option>`
+    ).join('');
+    return `<div class="card">
+      <div class="card-header">
+        <div>
+          <div class="date-text">${formatDate(s.date)}</div>
+          <div class="date-sub">${s.label || ''}</div>
+        </div>
+        <span class="badge ${st.cls}">${st.label}</span>
+      </div>
+      <div class="progress-row">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill ${st.fillCls}" style="width:${Math.round(pct*100)}%"></div>
+        </div>
+        <div class="progress-label">${booked}/${s.capacity}名</div>
+      </div>
+      <div class="info-row">
+        <div class="info-chip">残席 <span>${remain}</span>名</div>
+        <div class="info-chip">申込 <span>${data.applicants.filter(a=>a.first===s.id).length}</span>件</div>
+      </div>
+      <div class="state-row">
+        <label>状態：</label>
+        <select class="state-select" onchange="updateState('${s.id}', this.value)">${stateOpts}</select>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateState(id, val) {
+  const data = getData();
+  const s = data.schedules.find(x => x.id === id);
+  if (s) { s.state = val; saveData(data); showToast('状態を更新しました'); }
+}
+
+// ─── Render: register selects ───
+function renderRegisterSelects() {
+  const data = getData();
+  const sorted = [...data.schedules].sort((a,b) => a.date.localeCompare(b.date));
+  const opts = sorted.map(s => `<option value="${s.id}">${formatDate(s.date)} ${s.label||''}</option>`).join('');
+  document.getElementById('reg-first').innerHTML = opts || '<option value="">（日程がありません）</option>';
+  document.getElementById('reg-second').innerHTML = '<option value="">なし</option>' + opts;
+}
+
+// ─── Register applicant ───
+function registerApplicant() {
+  const name = document.getElementById('reg-name').value.trim();
+  const count = parseInt(document.getElementById('reg-count').value);
+  const first = document.getElementById('reg-first').value;
+  const second = document.getElementById('reg-second').value;
+  const flexible = document.getElementById('reg-flexible').value;
+
+  if (!name) { showToast('お名前を入力してください'); return; }
+  if (!first) { showToast('日程を選択してください'); return; }
+
+  const data = getData();
+  const schedule = data.schedules.find(s => s.id === first);
+  const booked = data.applicants.filter(a => a.first === first).reduce((s,a) => s+a.count, 0);
+  if (booked + count > schedule.capacity) {
+    showToast('定員を超えるため登録できません');
+    return;
+  }
+
+  data.applicants.push({
+    id: Date.now().toString(),
+    name, count, first, second,
+    flexible, date: new Date().toISOString()
+  });
+  saveData(data);
+
+  document.getElementById('reg-name').value = '';
+  document.getElementById('reg-count').value = '1';
+  document.getElementById('reg-flexible').value = 'no';
+
+  renderSchedule();
+  renderConsult();
+  showToast(`${name}様 の申込を登録しました`);
+}
+
+// ─── Render: consult ───
+function renderConsult() {
+  const data = getData();
+  const dangerEl = document.getElementById('danger-list');
+  const consultEl = document.getElementById('consult-list');
+
+  const danger = data.schedules.filter(s => {
+    const booked = data.applicants.filter(a => a.first === s.id).reduce((sum,a) => sum+a.count, 0);
+    return booked / s.capacity >= 0.8;
+  });
+
+  if (!danger.length) {
+    dangerEl.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div>調整が必要な日程はありません</div>';
+  } else {
+    dangerEl.innerHTML = danger.map(s => {
+      const booked = data.applicants.filter(a => a.first === s.id).reduce((sum,a) => sum+a.count, 0);
+      return `<div class="card" style="border-color:#f44336">
+        <div class="date-text" style="color:#ff6060">${formatDate(s.date)}</div>
+        <div class="info-chip" style="margin-top:4px">申込 <span style="color:#ff6060">${booked}</span>名 / 定員 ${s.capacity}名</div>
+      </div>`;
+    }).join('');
+  }
+
+  const flexible = data.applicants.filter(a => a.flexible === 'yes' && 
+    danger.find(d => d.id === a.first)
+  );
+
+  if (!flexible.length) {
+    consultEl.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div>移動相談できる申込者はいません</div>';
+  } else {
+    consultEl.innerHTML = flexible.map(a => {
+      const firstSch = data.schedules.find(s => s.id === a.first);
+      const secSch = a.second ? data.schedules.find(s => s.id === a.second) : null;
+      return `<div class="consult-card">
+        <div class="consult-name">${a.name}様　${a.count}名</div>
+        <div class="consult-detail">
+          第一希望：${firstSch ? formatDate(firstSch.date) : '—'}<br>
+          第二希望：${secSch ? formatDate(secSch.date) : 'なし'}
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ─── Add schedule ───
+function addSchedule() {
+  const date = document.getElementById('add-date').value;
+  const label = document.getElementById('add-label').value.trim();
+  const capacity = parseInt(document.getElementById('add-capacity').value);
+
+  if (!date) { showToast('日付を選択してください'); return; }
+
+  const data = getData();
+  if (data.schedules.find(s => s.date === date)) {
+    showToast('この日程はすでに登録されています');
+    return;
+  }
+
+  data.schedules.push({ id: Date.now().toString(), date, label, capacity, state: '受付中' });
+  saveData(data);
+
+  document.getElementById('add-date').value = '';
+  document.getElementById('add-label').value = '';
+
+  renderSchedule();
+  renderRegisterSelects();
+  renderAdminList();
+  showToast('日程を追加しました');
+}
+
+// ─── Admin list ───
+function renderAdminList() {
+  const data = getData();
+  const el = document.getElementById('admin-list');
+  if (!data.schedules.length) {
+    el.innerHTML = '<div class="empty-state" style="padding:20px">日程なし</div>';
+    return;
+  }
+  const sorted = [...data.schedules].sort((a,b) => a.date.localeCompare(b.date));
+  el.innerHTML = sorted.map(s => `
+    <div class="card" style="padding:10px 12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center">
+      <div>
+        <div style="font-size:14px; color:var(--gold)">${formatDate(s.date)}</div>
+        <div style="font-size:11px; color:var(--gold-dim)">${s.label||''} / 定員${s.capacity}名</div>
+      </div>
+      <button onclick="deleteSchedule('${s.id}')" style="background:none;border:1px solid #666;color:#999;padding:4px 10px;border-radius:2px;font-size:12px;cursor:pointer">削除</button>
+    </div>
+  `).join('');
+}
+
+function deleteSchedule(id) {
+  if (!confirm('この日程を削除しますか？\n（申込データも削除されます）')) return;
+  const data = getData();
+  data.schedules = data.schedules.filter(s => s.id !== id);
+  data.applicants = data.applicants.filter(a => a.first !== id && a.second !== id);
+  saveData(data);
+  renderSchedule(); renderRegisterSelects(); renderAdminList(); renderConsult();
+  showToast('日程を削除しました');
+}
+
+// ─── Toast ───
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── Tab navigation ───
+function showTab(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (name === 'register') renderRegisterSelects();
+  if (name === 'consult') renderConsult();
+  if (name === 'add') renderAdminList();
+}
+
+// ─── Init ───
+function init() {
+  renderSchedule();
+  renderRegisterSelects();
+}
+
+init();
+</script>
+</body>
+</html>
