@@ -700,7 +700,7 @@ function renderAll() {
 // 日程IDを正規化
 function normDate(str) {
   if (!str) return '';
-  str = str.toString().trim();
+  str = str.toString().trim().replace(/\s/g, '');
   const m = str.match(/(\d+)月(\d+)日/);
   if (m) return m[1] + '/' + m[2];
   return str;
