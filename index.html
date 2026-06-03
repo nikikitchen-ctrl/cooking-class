@@ -698,7 +698,8 @@ function renderAll() {
 }
 
 // 日程IDを正規化
-function normDate(str) { str = str.toString().replace(/ /g, "");
+function normDate(str) {
+  str = String(str).replace(/\s/g, ''); str = str.toString().replace(/ /g, "");
   if (!str) return '';
   str = str.toString().trim();
   const m = str.match(/(\d+)月(\d+)日/);
