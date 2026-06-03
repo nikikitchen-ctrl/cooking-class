@@ -702,7 +702,7 @@ function normDate(str) {
   str = String(str).replace(/\s/g, ''); str = str.toString().replace(/ /g, "");
   if (!str) return '';
   str = str.toString().trim();
-  const m = str.match(/(\d+)月(\d+)日/);
+  const m = str.match(/(\d+)月\s*(\d+)/) || str.match(/(\d+)月(\d+)日/);
   if (m) return m[1] + '/' + m[2];
   return str;
 }
