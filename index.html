@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#c0392b">
-<title>台湾料理教室 陳｜予約管理</title>
+<title>台灣料理教室 陳｜予約管理</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -183,6 +183,7 @@ body {
 .date-card.open { border-color: #2ecc71; }
 .date-card.full { border-color: var(--red); }
 .date-card.warn { border-color: var(--gold); }
+.date-card.soldout { border-color: var(--red); opacity: 0.8; }
 
 .date-badge {
   background: var(--bg3);
@@ -220,6 +221,16 @@ body {
 }
 .capacity-fill.warn { background: var(--gold); }
 .capacity-fill.full { background: var(--red-light); }
+
+.soldout-badge {
+  background: var(--red);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
 
 /* 申込者一覧 */
 .filter-row {
@@ -374,6 +385,8 @@ body {
 .btn-success { background: #27ae60; color: white; }
 .btn-warning { background: var(--gold); color: var(--bg); }
 .btn-outline { background: none; border: 1px solid var(--border); color: var(--text2); }
+.btn-danger { background: #7f0000; color: white; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
 
 /* 空状態 */
 .empty {
@@ -400,7 +413,7 @@ body {
   border-top: 1px solid var(--border);
   padding: 20px;
   width: 100%;
-  max-height: 80vh;
+  max-height: 85vh;
   overflow-y: auto;
   animation: slideUp 0.25s ease;
 }
@@ -478,6 +491,159 @@ body {
   background: var(--border);
   margin: 16px 0;
 }
+
+/* ===== 管理タブ ===== */
+.admin-section {
+  margin-bottom: 24px;
+}
+.admin-section-title {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-left: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 日程管理カード */
+.admin-date-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.admin-date-card.soldout-flag {
+  border-color: var(--red);
+}
+.admin-date-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+}
+.admin-date-label {
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+.admin-date-meta {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+.admin-date-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.toggle-soldout {
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.toggle-soldout.off {
+  background: rgba(192,57,43,0.15);
+  color: var(--red-light);
+  border: 1px solid rgba(192,57,43,0.4);
+}
+.toggle-soldout.on {
+  background: var(--red);
+  color: white;
+}
+.toggle-soldout:active { transform: scale(0.96); }
+
+/* フォーム */
+.form-group {
+  margin-bottom: 14px;
+}
+.form-label {
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  display: block;
+}
+.form-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus {
+  border-color: var(--gold);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.form-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.add-date-form {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 12px;
+}
+.add-date-form-title {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+
+/* パスワード設定 */
+.pw-section {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.pw-status {
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  background: var(--bg3);
+  border-radius: 6px;
+}
+.pw-status.active { color: #2ecc71; }
+
+/* 警告バナー */
+.warn-banner {
+  background: rgba(212,168,67,0.1);
+  border: 1px solid rgba(212,168,67,0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+/* 編集モーダル内フォーム */
+.edit-form .form-group { margin-bottom: 12px; }
 </style>
 </head>
 <body>
@@ -485,7 +651,7 @@ body {
 <div class="header">
   <div class="header-top">
     <div>
-      <div class="header-title">台湾料理教室 陳</div>
+      <div class="header-title">台灣料理教室 陳</div>
       <div class="header-sub">予約管理システム</div>
     </div>
     <button class="sync-btn" id="syncBtn" onclick="syncData()">
@@ -515,6 +681,9 @@ body {
   </div>
   <div class="tab" onclick="switchTab('decision')">
     <span class="tab-icon">✅</span>開催判断
+  </div>
+  <div class="tab" onclick="switchTab('admin')">
+    <span class="tab-icon">⚙️</span>管理
   </div>
 </div>
 
@@ -596,7 +765,98 @@ body {
   </div>
 </div>
 
-<!-- モーダル -->
+<!-- 管理タブ -->
+<div class="page" id="page-admin">
+  <div class="content">
+
+    <!-- 満席設定 -->
+    <div class="admin-section">
+      <div class="admin-section-title">🚫 満席・受付状況の管理</div>
+      <div class="warn-banner">
+        満席にすると概要タブの日程カードに「満席」バッジが表示されます。<br>
+        Googleフォームの選択肢は別途手動で変更してください。
+      </div>
+      <div id="adminDateList"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 日程の追加・編集 -->
+    <div class="admin-section">
+      <div class="admin-section-title">📅 日程の追加・編集</div>
+      <div id="adminDateEditList"></div>
+
+      <div class="add-date-form" id="addDateForm">
+        <div class="add-date-form-title">＋ 新しい日程を追加</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">月</label>
+            <input class="form-input" id="newMonth" type="number" placeholder="7" min="1" max="12">
+          </div>
+          <div class="form-group">
+            <label class="form-label">日</label>
+            <input class="form-input" id="newDay" type="number" placeholder="5" min="1" max="31">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">曜日</label>
+            <select class="form-input" id="newDow">
+              <option value="月">月</option>
+              <option value="火">火</option>
+              <option value="水">水</option>
+              <option value="木">木</option>
+              <option value="金">金</option>
+              <option value="土" selected>土</option>
+              <option value="日">日</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">定員（名）</label>
+            <input class="form-input" id="newCapacity" type="number" placeholder="8" min="1" max="100">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">開始時間</label>
+          <input class="form-input" id="newTime" type="text" placeholder="午前10時">
+        </div>
+        <button class="btn btn-success" style="width:100%" onclick="addDate()">この日程を追加する</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- パスワード設定（将来用） -->
+    <div class="admin-section">
+      <div class="admin-section-title">🔒 パスワード設定（準備中）</div>
+      <div class="pw-section">
+        <div class="pw-status" id="pwStatus">現在: パスワードなし（誰でもアクセス可）</div>
+        <div class="form-group">
+          <label class="form-label">新しいパスワード</label>
+          <input class="form-input" id="pwInput" type="password" placeholder="パスワードを入力" disabled>
+        </div>
+        <button class="btn btn-outline" style="width:100%; opacity:0.5" disabled>この機能は近日対応予定です</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- データリセット -->
+    <div class="admin-section">
+      <div class="admin-section-title">🔁 シーズンリセット</div>
+      <div class="pw-section">
+        <div style="font-size:12px; color:var(--text3); line-height:1.7; margin-bottom:12px">
+          新しいシーズンに移行する際、開催判断データ・満席フラグをリセットします。<br>
+          申込データ（スプレッドシート）はそのまま残ります。
+        </div>
+        <button class="btn btn-danger" style="width:100%" onclick="confirmReset()">開催判断・満席フラグをリセット</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- モーダル（共通） -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal" id="modal">
     <div class="modal-handle"></div>
@@ -617,15 +877,40 @@ body {
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwry7F4jOi80E25qy3WkBPWmCyRSb9QVGxyhntd9_Qqc2YR5iPqPpUkpwyawUBRdAfjHA/exec';
 
-// 日程マスタ
-const DATES = [
+// ===== 日程マスタ（localStorageで永続化） =====
+const DATES_KEY = 'cooking_dates_v2';
+const DEFAULT_DATES = [
   { id: '7/5',  label: '7月5日（土）',  month: '7月', day: '5',  dow: '土', time: '午前10時', capacity: 8 },
   { id: '7/12', label: '7月12日（土）', month: '7月', day: '12', dow: '土', time: '午前10時', capacity: 8 },
   { id: '7/19', label: '7月19日（土）', month: '7月', day: '19', dow: '土', time: '午前10時', capacity: 8 },
   { id: '7/26', label: '7月26日（土）', month: '7月', day: '26', dow: '土', time: '午前10時', capacity: 8 },
 ];
 
-// ローカル開催判断状態
+function getDates() {
+  try {
+    const d = JSON.parse(localStorage.getItem(DATES_KEY));
+    return Array.isArray(d) && d.length > 0 ? d : DEFAULT_DATES;
+  } catch { return DEFAULT_DATES; }
+}
+function saveDates(dates) {
+  localStorage.setItem(DATES_KEY, JSON.stringify(dates));
+}
+
+// ===== 満席フラグ =====
+const SOLDOUT_KEY = 'cooking_soldout';
+function getSoldout() {
+  try { return JSON.parse(localStorage.getItem(SOLDOUT_KEY) || '{}'); } catch { return {}; }
+}
+function toggleSoldout(dateId) {
+  const s = getSoldout();
+  s[dateId] = !s[dateId];
+  localStorage.setItem(SOLDOUT_KEY, JSON.stringify(s));
+  renderAll();
+  renderAdminPage();
+  showToast(s[dateId] ? '🔴 満席に設定しました' : '✅ 受付中に戻しました');
+}
+
+// ===== 開催判断 =====
 const DECISION_KEY = 'cooking_decisions';
 function getDecisions() {
   try { return JSON.parse(localStorage.getItem(DECISION_KEY) || '{}'); } catch { return {}; }
@@ -640,21 +925,21 @@ let allData = [];
 let currentFilter = 'all';
 let currentTab = 'dashboard';
 
-// タブ切替
+// ===== タブ切替 =====
 function switchTab(tab) {
   currentTab = tab;
+  const tabNames = ['dashboard','applicants','danger','relocation','decision','admin'];
   document.querySelectorAll('.tab').forEach((t, i) => {
-    const tabs = ['dashboard','applicants','danger','relocation','decision'];
-    t.classList.toggle('active', tabs[i] === tab);
+    t.classList.toggle('active', tabNames[i] === tab);
   });
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + tab).classList.add('active');
+  if (tab === 'admin') renderAdminPage();
 }
 
-// 同期
+// ===== 同期 =====
 async function syncData() {
   const btn = document.getElementById('syncBtn');
-  const icon = document.getElementById('syncIcon');
   const dot = document.getElementById('statusDot');
   const statusText = document.getElementById('statusText');
 
@@ -697,42 +982,39 @@ function renderAll() {
   renderDecision();
 }
 
-// 日程IDを正規化
+// ===== 日程IDを正規化 =====
 function normDate(str) {
-  str = String(str).replace(/\s/g, ''); str = str.toString().replace(/ /g, "");
+  str = String(str).replace(/\s/g, '');
   if (!str) return '';
-  str = str.toString().trim();
   const m = str.match(/(\d+)月\s*(\d+)/) || str.match(/(\d+)月(\d+)日/);
   if (m) return m[1] + '/' + m[2];
   return str;
 }
 
-// 日程別集計
+// ===== 日程別集計 =====
 function getDateStats() {
+  const DATES = getDates();
   const stats = {};
   DATES.forEach(d => { stats[d.id] = { count: 0, people: 0, names: [] }; });
 
   allData.forEach(row => {
     const d1 = normDate(row.date1);
-    const d2 = normDate(row.date2);
     const people = parseInt(row.people) || 1;
     const name = row.name || '名前なし';
-
     if (stats[d1]) {
       stats[d1].count++;
       stats[d1].people += people;
       stats[d1].names.push(name);
     }
-    if (d2 && d2 !== d1 && stats[d2]) {
-      // 第二希望はカウントしない（参考のみ）
-    }
   });
   return stats;
 }
 
-// ダッシュボード
+// ===== ダッシュボード =====
 function renderDashboard() {
+  const DATES = getDates();
   const stats = getDateStats();
+  const soldout = getSoldout();
   const total = allData.length;
   const totalPeople = allData.reduce((s, r) => s + (parseInt(r.people) || 1), 0);
 
@@ -740,13 +1022,18 @@ function renderDashboard() {
   document.getElementById('totalPeople').textContent = totalPeople;
 
   const container = document.getElementById('dateCards');
-  if (DATES.length === 0) { container.innerHTML = '<div class="empty"><div class="empty-text">日程がありません</div></div>'; return; }
+  if (DATES.length === 0) {
+    container.innerHTML = '<div class="empty"><div class="empty-text">日程がありません</div></div>';
+    return;
+  }
 
   container.innerHTML = DATES.map(d => {
     const s = stats[d.id] || { count: 0, people: 0 };
+    const isSoldout = soldout[d.id];
     const pct = Math.min(100, Math.round(s.people / d.capacity * 100));
-    const cls = pct >= 100 ? 'full' : pct >= 75 ? 'warn' : 'open';
+    const cls = isSoldout ? 'soldout' : (pct >= 100 ? 'full' : pct >= 75 ? 'warn' : 'open');
     const fillCls = pct >= 100 ? 'full' : pct >= 75 ? 'warn' : '';
+
     return `<div class="date-card ${cls}" onclick="showDateDetail('${d.id}')">
       <div class="date-badge">
         <div class="date-month">${d.month}</div>
@@ -754,7 +1041,7 @@ function renderDashboard() {
         <div class="date-dow">${d.dow}</div>
       </div>
       <div class="date-info">
-        <div class="date-name">${d.label}</div>
+        <div class="date-name">${d.label}${isSoldout ? ' <span class="soldout-badge">満席</span>' : ''}</div>
         <div class="date-meta">${d.time} · 定員${d.capacity}名</div>
         <div class="capacity-bar"><div class="capacity-fill ${fillCls}" style="width:${pct}%"></div></div>
       </div>
@@ -766,14 +1053,14 @@ function renderDashboard() {
   }).join('');
 }
 
-// 申込者一覧
+// ===== 申込者一覧 =====
 function renderApplicants(filter) {
   if (filter !== undefined) currentFilter = filter;
+  const DATES = getDates();
 
-  // フィルターチップ更新
   const filterRow = document.getElementById('filterRow');
   filterRow.innerHTML = `<button class="filter-chip ${currentFilter==='all'?'active':''}" onclick="filterApplicants('all')">すべて</button>`
-    + DATES.map(d => `<button class="filter-chip ${currentFilter===d.id?'active':''}" onclick="filterApplicants('${d.id}')">${d.label.replace('（土）','')}</button>`).join('');
+    + DATES.map(d => `<button class="filter-chip ${currentFilter===d.id?'active':''}" onclick="filterApplicants('${d.id}')">${d.label.replace(/（.）/,'')}</button>`).join('');
 
   const filtered = currentFilter === 'all'
     ? allData
@@ -785,14 +1072,13 @@ function renderApplicants(filter) {
     return;
   }
 
-  container.innerHTML = filtered.map((r, i) => {
-    const d1 = normDate(r.date1);
+  container.innerHTML = filtered.map((r) => {
     const d2 = normDate(r.date2);
     const idx = allData.indexOf(r);
     return `<div class="applicant-card" onclick="showApplicantDetail(${idx})">
       <div class="applicant-header">
         <div class="applicant-name">${r.name || '名前なし'}</div>
-        <div class="applicant-count">${r.people || 1}名</div>
+        <div class="applicant-count">${String(r.people || 1).replace(/名/g, "")}名</div>
       </div>
       <div class="applicant-dates">
         <span class="applicant-date-tag">第一希望: ${r.date1 || '未選択'}</span>
@@ -808,17 +1094,16 @@ function filterApplicants(dateId) {
   renderApplicants();
 }
 
-// 危険日程
+// ===== 危険日程 =====
 function renderDanger() {
+  const DATES = getDates();
   const stats = getDateStats();
   const container = document.getElementById('dangerContent');
   const dangers = [];
 
   DATES.forEach(d => {
     const s = stats[d.id] || { count: 0, people: 0, names: [] };
-    if (s.people >= d.capacity * 0.75) {
-      dangers.push({ date: d, stats: s });
-    }
+    if (s.people >= d.capacity * 0.75) dangers.push({ date: d, stats: s });
   });
 
   if (dangers.length === 0) {
@@ -839,19 +1124,17 @@ function renderDanger() {
   }).join('');
 }
 
-// 移動相談
+// ===== 移動相談 =====
 function renderRelocation() {
   const container = document.getElementById('relocationContent');
   const want = allData.filter(r => r.relocation && r.relocation.includes('相談'));
-
   if (want.length === 0) {
     container.innerHTML = '<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">日程変更の相談はありません</div></div>';
     return;
   }
-
   container.innerHTML = want.map(r => `
     <div class="relocation-card">
-      <div class="relocation-name">${r.name || '名前なし'} (${r.people || 1}名)</div>
+      <div class="relocation-name">${r.name || '名前なし'} (${String(r.people || 1).replace(/名/g, "")}名)</div>
       <div class="relocation-detail">
         第一希望: ${r.date1 || '—'}<br>
         第二希望: ${r.date2 || '—'}<br>
@@ -861,8 +1144,9 @@ function renderRelocation() {
   `).join('');
 }
 
-// 開催判断
+// ===== 開催判断 =====
 function renderDecision() {
+  const DATES = getDates();
   const stats = getDateStats();
   const decisions = getDecisions();
   const container = document.getElementById('decisionContent');
@@ -893,14 +1177,211 @@ function setDecision(dateId, status) {
   showToast('✅ ' + labels[status] + 'に設定しました');
 }
 
-// 日程詳細モーダル
+// ===== 管理ページ =====
+function renderAdminPage() {
+  const DATES = getDates();
+  const soldout = getSoldout();
+
+  // 満席管理リスト
+  const soldoutList = document.getElementById('adminDateList');
+  soldoutList.innerHTML = DATES.map(d => {
+    const isSoldout = soldout[d.id];
+    return `<div class="admin-date-card ${isSoldout ? 'soldout-flag' : ''}">
+      <div class="admin-date-header">
+        <div>
+          <div class="admin-date-label">${d.label}</div>
+          <div class="admin-date-meta">${d.time} · 定員 ${d.capacity}名</div>
+        </div>
+        <div class="admin-date-actions">
+          <button class="toggle-soldout ${isSoldout ? 'on' : 'off'}" onclick="toggleSoldout('${d.id}')">
+            ${isSoldout ? '🔴 満席中' : '受付中'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="empty"><div class="empty-text">日程がありません</div></div>';
+
+  // 日程編集リスト
+  const editList = document.getElementById('adminDateEditList');
+  editList.innerHTML = DATES.map((d, i) => `
+    <div class="admin-date-card">
+      <div class="admin-date-header">
+        <div>
+          <div class="admin-date-label">${d.label}</div>
+          <div class="admin-date-meta">${d.time} · 定員 ${d.capacity}名</div>
+        </div>
+        <div class="admin-date-actions">
+          <button class="btn btn-outline btn-sm" onclick="showEditDateModal(${i})">編集</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteDate(${i})">削除</button>
+        </div>
+      </div>
+    </div>
+  `).join('') || '<div class="empty"><div class="empty-text">日程がありません</div></div>';
+}
+
+// ===== 日程追加 =====
+function addDate() {
+  const month = document.getElementById('newMonth').value.trim();
+  const day = document.getElementById('newDay').value.trim();
+  const dow = document.getElementById('newDow').value;
+  const capacity = parseInt(document.getElementById('newCapacity').value) || 8;
+  const time = document.getElementById('newTime').value.trim() || '午前10時';
+
+  if (!month || !day) { showToast('⚠️ 月と日を入力してください'); return; }
+
+  const id = `${month}/${day}`;
+  const DATES = getDates();
+
+  if (DATES.find(d => d.id === id)) { showToast('⚠️ その日程はすでに登録されています'); return; }
+
+  const newDate = {
+    id,
+    label: `${month}月${day}日（${dow}）`,
+    month: `${month}月`,
+    day: String(day),
+    dow,
+    time,
+    capacity,
+  };
+
+  DATES.push(newDate);
+  // 日付順でソート
+  DATES.sort((a, b) => {
+    const [am, ad] = a.id.split('/').map(Number);
+    const [bm, bd] = b.id.split('/').map(Number);
+    return am !== bm ? am - bm : ad - bd;
+  });
+  saveDates(DATES);
+
+  // フォームリセット
+  ['newMonth','newDay','newCapacity','newTime'].forEach(id => { document.getElementById(id).value = ''; });
+
+  renderAll();
+  renderAdminPage();
+  showToast(`✅ ${newDate.label} を追加しました`);
+}
+
+// ===== 日程削除 =====
+function deleteDate(idx) {
+  const DATES = getDates();
+  const d = DATES[idx];
+  if (!d) return;
+  if (!confirm(`「${d.label}」を削除しますか？\n（この操作は元に戻せません）`)) return;
+  DATES.splice(idx, 1);
+  saveDates(DATES);
+  renderAll();
+  renderAdminPage();
+  showToast(`🗑️ ${d.label} を削除しました`);
+}
+
+// ===== 日程編集モーダル =====
+function showEditDateModal(idx) {
+  const DATES = getDates();
+  const d = DATES[idx];
+  if (!d) return;
+
+  document.getElementById('modalTitle').textContent = `${d.label} を編集`;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="edit-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">月</label>
+          <input class="form-input" id="editMonth" type="number" value="${d.month.replace('月','')}" min="1" max="12">
+        </div>
+        <div class="form-group">
+          <label class="form-label">日</label>
+          <input class="form-input" id="editDay" type="number" value="${d.day}" min="1" max="31">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">曜日</label>
+          <select class="form-input" id="editDow">
+            ${['月','火','水','木','金','土','日'].map(w => `<option value="${w}" ${d.dow===w?'selected':''}>${w}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">定員（名）</label>
+          <input class="form-input" id="editCapacity" type="number" value="${d.capacity}" min="1" max="100">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">開始時間</label>
+        <input class="form-input" id="editTime" type="text" value="${d.time}">
+      </div>
+      <div style="margin-top:4px">
+        <button class="btn btn-success" style="width:100%" onclick="saveEditDate(${idx})">保存する</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function saveEditDate(idx) {
+  const DATES = getDates();
+  const month = document.getElementById('editMonth').value.trim();
+  const day = document.getElementById('editDay').value.trim();
+  const dow = document.getElementById('editDow').value;
+  const capacity = parseInt(document.getElementById('editCapacity').value) || 8;
+  const time = document.getElementById('editTime').value.trim() || '午前10時';
+
+  if (!month || !day) { showToast('⚠️ 月と日を入力してください'); return; }
+
+  const oldId = DATES[idx].id;
+  const newId = `${month}/${day}`;
+
+  DATES[idx] = {
+    id: newId,
+    label: `${month}月${day}日（${dow}）`,
+    month: `${month}月`,
+    day: String(day),
+    dow,
+    time,
+    capacity,
+  };
+
+  // IDが変わった場合、満席フラグ・開催判断も移行
+  if (oldId !== newId) {
+    const soldout = getSoldout();
+    if (soldout[oldId] !== undefined) { soldout[newId] = soldout[oldId]; delete soldout[oldId]; localStorage.setItem(SOLDOUT_KEY, JSON.stringify(soldout)); }
+    const decisions = getDecisions();
+    if (decisions[oldId] !== undefined) { decisions[newId] = decisions[oldId]; delete decisions[oldId]; localStorage.setItem(DECISION_KEY, JSON.stringify(decisions)); }
+  }
+
+  // ソート
+  DATES.sort((a, b) => {
+    const [am, ad] = a.id.split('/').map(Number);
+    const [bm, bd] = b.id.split('/').map(Number);
+    return am !== bm ? am - bm : ad - bd;
+  });
+  saveDates(DATES);
+
+  document.getElementById('modalOverlay').classList.remove('open');
+  renderAll();
+  renderAdminPage();
+  showToast(`✅ 日程を更新しました`);
+}
+
+// ===== シーズンリセット =====
+function confirmReset() {
+  if (!confirm('開催判断データと満席フラグをすべてリセットします。\nよろしいですか？')) return;
+  localStorage.removeItem(DECISION_KEY);
+  localStorage.removeItem(SOLDOUT_KEY);
+  renderAll();
+  renderAdminPage();
+  showToast('🔁 リセットしました');
+}
+
+// ===== 日程詳細モーダル =====
 function showDateDetail(dateId) {
+  const DATES = getDates();
   const date = DATES.find(d => d.id === dateId);
   if (!date) return;
   const stats = getDateStats();
   const s = stats[dateId] || { count: 0, people: 0, names: [] };
   const applicants = allData.filter(r => normDate(r.date1) === dateId);
   const decisions = getDecisions();
+  const soldout = getSoldout();
   const status = decisions[dateId] || 'pending';
   const statusLabels = { open: '開催確定', closed: '中止', pending: '検討中' };
 
@@ -909,21 +1390,23 @@ function showDateDetail(dateId) {
     <div class="modal-row"><span class="modal-label">開催時間</span><span class="modal-value">${date.time}</span></div>
     <div class="modal-row"><span class="modal-label">定員</span><span class="modal-value">${date.capacity}名</span></div>
     <div class="modal-row"><span class="modal-label">申込数</span><span class="modal-value">${s.count}件 (${s.people}名)</span></div>
+    <div class="modal-row"><span class="modal-label">受付状況</span><span class="modal-value">${soldout[dateId] ? '🔴 満席' : '✅ 受付中'}</span></div>
     <div class="modal-row"><span class="modal-label">開催判断</span><span class="modal-value">${statusLabels[status]}</span></div>
     <div style="margin-top:12px;font-size:11px;color:var(--text3);margin-bottom:6px;">申込者リスト</div>
-    ${applicants.length === 0 ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:10px">申込者なし</div>' :
-      applicants.map(r => `<div class="modal-row"><span class="modal-label">${r.name || '名前なし'}</span><span class="modal-value">${r.people || 1}名</span></div>`).join('')}
+    ${applicants.length === 0
+      ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:10px">申込者なし</div>'
+      : applicants.map(r => `<div class="modal-row"><span class="modal-label">${r.name || '名前なし'}</span><span class="modal-value">${String(r.people || 1).replace(/名/g, "")}名</span></div>`).join('')}
   `;
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-// 申込者詳細モーダル
+// ===== 申込者詳細モーダル =====
 function showApplicantDetail(idx) {
   const r = allData[idx];
   if (!r) return;
   document.getElementById('modalTitle').textContent = r.name || '名前なし';
   document.getElementById('modalBody').innerHTML = `
-    <div class="modal-row"><span class="modal-label">参加人数</span><span class="modal-value">${r.people || 1}名</span></div>
+    <div class="modal-row"><span class="modal-label">参加人数</span><span class="modal-value">${String(r.people || 1).replace(/名/g, "")}名</span></div>
     <div class="modal-row"><span class="modal-label">第一希望</span><span class="modal-value">${r.date1 || '未選択'}</span></div>
     <div class="modal-row"><span class="modal-label">第二希望</span><span class="modal-value">${r.date2 || '—'}</span></div>
     <div class="modal-row"><span class="modal-label">日程変更相談</span><span class="modal-value">${r.relocation || '希望しない'}</span></div>
@@ -939,7 +1422,7 @@ function closeModal(e) {
   }
 }
 
-// トースト
+// ===== トースト =====
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -947,7 +1430,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// 起動時に同期
+// ===== 起動時 =====
 window.addEventListener('load', () => {
   setTimeout(syncData, 500);
 });
