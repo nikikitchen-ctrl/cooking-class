@@ -894,6 +894,28 @@ function getDates() {
 }
 function saveDates(dates) {
   localStorage.setItem(DATES_KEY, JSON.stringify(dates));
+  // GASにPOSTしてGoogleフォームも自動更新
+  syncDatesToGAS(dates);
+}
+
+async function syncDatesToGAS(dates) {
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'saveDates', dates: dates })
+    });
+    const json = await res.json();
+    if (json.status === 'ok') {
+      showToast('✅ Googleフォームも更新しました');
+    } else {
+      showToast('⚠️ フォーム更新に失敗: ' + (json.message || ''));
+    }
+  } catch(e) {
+    showToast('⚠️ フォーム更新に失敗しました');
+    console.error('GAS sync error:', e);
+  }
 }
 
 // ===== 満席フラグ =====
