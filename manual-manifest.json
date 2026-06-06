@@ -1,0 +1,26 @@
+{
+  "name": "台灣料理教室 陳 操作マニュアル",
+  "short_name": "操作マニュアル",
+  "description": "台灣料理教室 陳 予約管理システム 操作マニュアル",
+  "start_url": "/cooking-class/manual.html",
+  "scope": "/cooking-class/manual.html",
+  "display": "standalone",
+  "background_color": "#8b1a10",
+  "theme_color": "#8b1a10",
+  "orientation": "portrait",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icons/manual-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/manual-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
