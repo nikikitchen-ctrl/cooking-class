@@ -774,8 +774,8 @@ body {
     <div class="admin-section">
       <div class="admin-section-title">🚫 満席・受付状況の管理</div>
       <div class="warn-banner">
-        満席にすると概要タブの日程カードに「満席」バッジが表示されます。<br>
-        Googleフォームの選択肢は別途手動で変更してください。
+        定員に達すると自動的に「満席」バッジが表示され、フォームの選択肢からも自動削除されます。<br>
+        手動で変更することも可能です。
       </div>
       <div id="adminDateList"></div>
     </div>
@@ -935,6 +935,16 @@ async function syncDatesToGAS(dates) {
 
 // ===== 満席フラグ =====
 const SOLDOUT_KEY = 'cooking_soldout';
+
+async function fetchSoldoutFromGAS() {
+  try {
+    const res = await fetch(GAS_URL + '?action=getSoldout');
+    const data = await res.json();
+    if (data.status === 'ok') {
+      localStorage.setItem(SOLDOUT_KEY, JSON.stringify(data.soldout));
+    }
+  } catch(e) { console.log('満席フラグ取得エラー', e); }
+}
 function getSoldout() {
   try { return JSON.parse(localStorage.getItem(SOLDOUT_KEY) || '{}'); } catch { return {}; }
 }
@@ -945,6 +955,11 @@ function toggleSoldout(dateId) {
   renderAll();
   renderAdminPage();
   showToast(s[dateId] ? '🔴 満席に設定しました' : '✅ 受付中に戻しました');
+  // GASにも反映
+  fetch(GAS_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'setSoldout', dateId: dateId, soldout: !!s[dateId] })
+  }).catch(function(e) { console.log('満席フラグ送信エラー', e); });
 }
 
 // ===== 開催判断 =====
@@ -976,6 +991,7 @@ function switchTab(tab) {
 
 // ===== 同期 =====
 async function syncData() {
+  await fetchSoldoutFromGAS();
   const btn = document.getElementById('syncBtn');
   const dot = document.getElementById('statusDot');
   const statusText = document.getElementById('statusText');
