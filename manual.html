@@ -775,30 +775,30 @@ p:last-child { margin-bottom: 0; }
 
     <div class="cover-toc">
       <div class="cover-toc-title">— 目 次 —</div>
-      <div class="cover-toc-item" onclick="scrollTo('quick')">
+      <div class="cover-toc-item" onclick="gotoSection('quick')">
         <span class="cover-toc-num">Ⅰ</span>
         <span class="cover-toc-text">クイックマニュアル（毎日の操作）</span>
         <span class="cover-toc-badge">必読</span>
       </div>
-      <div class="cover-toc-item" onclick="scrollTo('tabs')">
+      <div class="cover-toc-item" onclick="gotoSection('tabs')">
         <span class="cover-toc-num">Ⅱ</span>
         <span class="cover-toc-text">各タブの説明</span>
       </div>
-      <div class="cover-toc-item" onclick="scrollTo('auto')">
+      <div class="cover-toc-item" onclick="gotoSection('auto')">
         <span class="cover-toc-num">Ⅲ</span>
         <span class="cover-toc-text">自動化機能について</span>
         <span class="cover-toc-badge">新機能</span>
       </div>
-      <div class="cover-toc-item" onclick="scrollTo('newseason')">
+      <div class="cover-toc-item" onclick="gotoSection('newseason')">
         <span class="cover-toc-num">Ⅳ</span>
         <span class="cover-toc-text">新シーズン移行手順</span>
         <span class="cover-toc-badge">重要</span>
       </div>
-      <div class="cover-toc-item" onclick="scrollTo('install')">
+      <div class="cover-toc-item" onclick="gotoSection('install')">
         <span class="cover-toc-num">Ⅴ</span>
         <span class="cover-toc-text">アプリのインストール方法</span>
       </div>
-      <div class="cover-toc-item" onclick="scrollTo('trouble')">
+      <div class="cover-toc-item" onclick="gotoSection('trouble')">
         <span class="cover-toc-num">Ⅵ</span>
         <span class="cover-toc-text">困ったときは</span>
       </div>
@@ -809,7 +809,7 @@ p:last-child { margin-bottom: 0; }
 <!-- ===== ナビ ===== -->
 <div class="nav">
   <div class="nav-title">台灣料理教室 陳 操作マニュアル</div>
-  <button class="nav-btn" onclick="scrollTo('top')">▲ 表紙へ</button>
+  <button class="nav-btn" onclick="gotoSection('top')">▲ 表紙へ</button>
 </div>
 
 <!-- ===== Ⅰ クイックマニュアル ===== -->
@@ -1409,10 +1409,10 @@ p:last-child { margin-bottom: 0; }
 </div>
 
 <!-- ページトップボタン -->
-<div class="page-top" id="pageTop" onclick="scrollTo('top')">▲</div>
+<div class="page-top" id="pageTop" onclick="gotoSection('top')">▲</div>
 
 <script>
-function scrollTo(id) {
+function gotoSection(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
