@@ -6,381 +6,112 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#c0392b">
-<link rel="apple-touch-icon" href="/cooking-class/icons/icon-192x192.png">
-<title>台灣料理教室 陳｜予約管理</title>
+<title>台湾料理教室 陳｜予約管理</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --red: #c0392b;
-  --red-dark: #96281b;
-  --red-light: #e74c3c;
-  --gold: #d4a843;
-  --gold-light: #f0c060;
-  --bg: #1a0a08;
-  --bg2: #2a1210;
-  --bg3: #3a1a16;
-  --surface: #2e1510;
-  --surface2: #3d1e18;
-  --text: #f5ede8;
-  --text2: #c4a49a;
-  --text3: #8a6058;
-  --border: rgba(212,168,67,0.2);
-  --border2: rgba(192,57,43,0.3);
-  --radius: 12px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --red: #c0392b; --red-dark: #96281b; --red-light: #e74c3c;
+  --gold: #d4a843; --gold-light: #f0c060;
+  --bg: #1a0a08; --bg2: #2a1210; --bg3: #3a1a16;
+  --surface: #2e1510; --surface2: #3d1e18;
+  --text: #f5ede8; --text2: #c4a49a; --text3: #8a6058;
+  --border: rgba(212,168,67,0.2); --border2: rgba(192,57,43,0.3);
+  --radius: 12px; --shadow: 0 4px 24px rgba(0,0,0,0.4);
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-body {
-  font-family: 'Noto Sans JP', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ヘッダー */
-.header {
-  background: linear-gradient(135deg, var(--bg2), var(--bg3));
-  border-bottom: 1px solid var(--border);
-  padding: 16px 20px 12px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-.header-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  color: var(--gold);
-  letter-spacing: 0.02em;
-}
-.header-sub {
-  font-size: 11px;
-  color: var(--text3);
-  letter-spacing: 0.1em;
-}
-.sync-btn {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text2);
-  padding: 6px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-family: inherit;
-  transition: all 0.2s;
-}
+.header { background: linear-gradient(135deg, var(--bg2), var(--bg3)); border-bottom: 1px solid var(--border); padding: 16px 20px 12px; position: sticky; top: 0; z-index: 100; }
+.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.header-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold); letter-spacing: 0.02em; }
+.header-sub { font-size: 11px; color: var(--text3); letter-spacing: 0.1em; }
+.sync-btn { background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--text2); padding: 6px 10px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: inherit; transition: all 0.2s; }
 .sync-btn:active { opacity: 0.7; transform: scale(0.97); }
 .sync-btn.loading .spin { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ステータスバー */
-.status-bar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border2);
-  padding: 8px 20px;
-  font-size: 11px;
-  color: var(--text3);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.status-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--text3);
-  flex-shrink: 0;
-}
+.status-bar { background: var(--surface); border-bottom: 1px solid var(--border2); padding: 8px 20px; font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 8px; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); flex-shrink: 0; }
 .status-dot.ok { background: #2ecc71; box-shadow: 0 0 6px #2ecc71; }
 .status-dot.err { background: var(--red-light); }
 .status-dot.loading { background: var(--gold); animation: pulse 1s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-/* タブナビ */
-.tabs {
-  display: flex;
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
+.tabs { display: flex; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
-.tab {
-  flex: 1;
-  min-width: 0;
-  padding: 12px 8px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--text3);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s;
-  white-space: nowrap;
-  user-select: none;
-}
-.tab.active {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
-  background: linear-gradient(to bottom, transparent, rgba(212,168,67,0.06));
-}
+.tab { flex: 1; min-width: 0; padding: 12px 8px; text-align: center; font-size: 12px; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; user-select: none; }
+.tab.active { color: var(--gold); border-bottom-color: var(--gold); background: linear-gradient(to bottom, transparent, rgba(212,168,67,0.06)); }
 .tab-icon { font-size: 16px; display: block; margin-bottom: 2px; }
 
-/* コンテンツ */
 .content { padding: 16px; padding-bottom: 32px; }
 .page { display: none; }
 .page.active { display: block; }
 
-/* ダッシュボード */
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.stat-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 14px;
-  text-align: center;
-}
-.stat-num {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.stat-label {
-  font-size: 11px;
-  color: var(--text3);
-  letter-spacing: 0.05em;
-}
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 14px; text-align: center; }
+.stat-num { font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 11px; color: var(--text3); letter-spacing: 0.05em; }
 
 .date-cards { display: flex; flex-direction: column; gap: 10px; }
-.date-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
+.date-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; }
 .date-card:active { transform: scale(0.98); }
 .date-card.open { border-color: #2ecc71; }
 .date-card.full { border-color: var(--red); }
 .date-card.warn { border-color: var(--gold); }
 .date-card.soldout { border-color: var(--red); opacity: 0.8; }
-
-.date-badge {
-  background: var(--bg3);
-  border-radius: 8px;
-  padding: 8px 10px;
-  text-align: center;
-  min-width: 52px;
-}
+.date-badge { background: var(--bg3); border-radius: 8px; padding: 8px 10px; text-align: center; min-width: 52px; }
 .date-month { font-size: 10px; color: var(--text3); }
 .date-day { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
 .date-dow { font-size: 10px; color: var(--text3); }
-
 .date-info { flex: 1; }
 .date-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
 .date-meta { font-size: 11px; color: var(--text3); }
-
-.date-count {
-  text-align: right;
-}
+.date-count { text-align: right; }
 .count-num { font-size: 20px; font-weight: 700; color: var(--gold); }
 .count-label { font-size: 10px; color: var(--text3); }
-
-.capacity-bar {
-  height: 3px;
-  background: var(--bg3);
-  border-radius: 2px;
-  margin-top: 6px;
-  overflow: hidden;
-}
-.capacity-fill {
-  height: 100%;
-  border-radius: 2px;
-  background: #2ecc71;
-  transition: width 0.4s;
-}
+.capacity-bar { height: 3px; background: var(--bg3); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.capacity-fill { height: 100%; border-radius: 2px; background: #2ecc71; transition: width 0.4s; }
 .capacity-fill.warn { background: var(--gold); }
 .capacity-fill.full { background: var(--red-light); }
+.soldout-badge { background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em; }
 
-.soldout-badge {
-  background: var(--red);
-  color: white;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 4px;
-  letter-spacing: 0.05em;
-}
-
-/* 申込者一覧 */
-.filter-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 2px;
-}
+.filter-row { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
 .filter-row::-webkit-scrollbar { display: none; }
-.filter-chip {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 12px;
-  color: var(--text2);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-  font-family: inherit;
-}
-.filter-chip.active {
-  background: var(--red);
-  border-color: var(--red);
-  color: white;
-}
+.filter-chip { background: var(--surface); border: 1px solid var(--border2); border-radius: 20px; padding: 6px 14px; font-size: 12px; color: var(--text2); cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
+.filter-chip.active { background: var(--red); border-color: var(--red); color: white; }
 
 .applicant-list { display: flex; flex-direction: column; gap: 8px; }
-.applicant-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 12px 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
+.applicant-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 12px 14px; cursor: pointer; transition: all 0.2s; }
 .applicant-card:active { transform: scale(0.98); }
-.applicant-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-.applicant-name {
-  font-size: 15px;
-  font-weight: 500;
-}
-.applicant-count {
-  background: var(--bg3);
-  border-radius: 6px;
-  padding: 2px 8px;
-  font-size: 12px;
-  color: var(--gold);
-}
-.applicant-dates {
-  font-size: 11px;
-  color: var(--text3);
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.applicant-date-tag {
-  background: var(--bg3);
-  border-radius: 4px;
-  padding: 2px 6px;
-}
-.applicant-note {
-  margin-top: 6px;
-  font-size: 11px;
-  color: var(--text2);
-  background: var(--bg3);
-  border-radius: 6px;
-  padding: 4px 8px;
-  line-height: 1.5;
-}
+.applicant-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.applicant-name { font-size: 15px; font-weight: 500; }
+.applicant-count { background: var(--bg3); border-radius: 6px; padding: 2px 8px; font-size: 12px; color: var(--gold); }
+.applicant-dates { font-size: 11px; color: var(--text3); display: flex; gap: 8px; flex-wrap: wrap; }
+.applicant-date-tag { background: var(--bg3); border-radius: 4px; padding: 2px 6px; }
+.applicant-note { margin-top: 6px; font-size: 11px; color: var(--text2); background: var(--bg3); border-radius: 6px; padding: 4px 8px; line-height: 1.5; }
 
-/* 危険日程 */
-.danger-empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text3);
-  font-size: 14px;
-}
-.danger-card {
-  background: var(--surface);
-  border: 1px solid rgba(231,76,60,0.4);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-}
-.danger-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
+.danger-empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; }
+.danger-card { background: var(--surface); border: 1px solid rgba(231,76,60,0.4); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
+.danger-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .danger-icon { font-size: 18px; }
 .danger-date-name { font-size: 14px; font-weight: 500; color: var(--red-light); }
 .danger-list { font-size: 12px; color: var(--text2); line-height: 2; }
 
-/* 移動相談 */
-.relocation-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-}
+.relocation-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
 .relocation-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
 .relocation-detail { font-size: 12px; color: var(--text3); line-height: 1.8; }
 
-/* 開催判断タブ */
-.decision-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 12px;
-}
+.decision-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
 .decision-date-name { font-size: 15px; font-weight: 500; margin-bottom: 12px; color: var(--gold); }
-.decision-status-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.status-badge {
-  border-radius: 6px;
-  padding: 4px 12px;
-  font-size: 12px;
-  font-weight: 500;
-}
+.decision-status-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.status-badge { border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 500; }
 .status-badge.open { background: rgba(46,204,113,0.2); color: #2ecc71; border: 1px solid rgba(46,204,113,0.4); }
 .status-badge.closed { background: rgba(192,57,43,0.2); color: var(--red-light); border: 1px solid rgba(192,57,43,0.4); }
 .status-badge.pending { background: rgba(212,168,67,0.2); color: var(--gold); border: 1px solid rgba(212,168,67,0.4); }
 
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn {
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-  font-weight: 500;
-}
+.btn { border-radius: 8px; padding: 8px 16px; font-size: 13px; font-family: inherit; cursor: pointer; border: none; transition: all 0.2s; font-weight: 500; }
 .btn:active { transform: scale(0.97); }
 .btn-primary { background: var(--red); color: white; }
 .btn-success { background: #27ae60; color: white; }
@@ -389,262 +120,60 @@ body {
 .btn-danger { background: #7f0000; color: white; }
 .btn-sm { padding: 5px 10px; font-size: 12px; }
 
-/* 空状態 */
-.empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text3);
-}
+.empty { text-align: center; padding: 40px 20px; color: var(--text3); }
 .empty-icon { font-size: 40px; margin-bottom: 8px; }
 .empty-text { font-size: 14px; }
 
-/* モーダル */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 200;
-  align-items: flex-end;
-}
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: flex-end; }
 .modal-overlay.open { display: flex; }
-.modal {
-  background: var(--bg2);
-  border-radius: 20px 20px 0 0;
-  border-top: 1px solid var(--border);
-  padding: 20px;
-  width: 100%;
-  max-height: 85vh;
-  overflow-y: auto;
-  animation: slideUp 0.25s ease;
-}
+.modal { background: var(--bg2); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); padding: 20px; width: 100%; max-height: 85vh; overflow-y: auto; animation: slideUp 0.25s ease; }
 @keyframes slideUp { from { transform: translateY(100%); } }
-.modal-handle {
-  width: 36px; height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  margin: 0 auto 16px;
-}
+.modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
 .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--gold); }
-.modal-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border2);
-  font-size: 13px;
-}
+.modal-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border2); font-size: 13px; }
 .modal-row:last-child { border-bottom: none; }
 .modal-label { color: var(--text3); }
 .modal-value { font-weight: 500; text-align: right; max-width: 60%; }
 
-/* トースト */
-.toast {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 10px 20px;
-  font-size: 13px;
-  opacity: 0;
-  transition: all 0.3s;
-  pointer-events: none;
-  white-space: nowrap;
-  z-index: 300;
-}
+.toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface2); border: 1px solid var(--border); border-radius: 24px; padding: 10px 20px; font-size: 13px; opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap; z-index: 300; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ローディング */
-.loading-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(26,10,8,0.85);
-  z-index: 150;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
-}
+.loading-overlay { display: none; position: fixed; inset: 0; background: rgba(26,10,8,0.85); z-index: 150; align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
 .loading-overlay.show { display: flex; }
-.loading-spinner {
-  width: 40px; height: 40px;
-  border: 3px solid var(--border);
-  border-top-color: var(--gold);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
+.loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
 .loading-text { font-size: 13px; color: var(--text3); }
 
-/* 装飾 */
-.section-title {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  color: var(--text3);
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  padding-left: 2px;
-}
-.divider {
-  height: 1px;
-  background: var(--border);
-  margin: 16px 0;
-}
+.section-title { font-size: 11px; letter-spacing: 0.15em; color: var(--text3); text-transform: uppercase; margin-bottom: 12px; padding-left: 2px; }
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
 
-/* ===== 管理タブ ===== */
-.admin-section {
-  margin-bottom: 24px;
-}
-.admin-section-title {
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  padding-left: 2px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* 日程管理カード */
-.admin-date-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  margin-bottom: 10px;
-  overflow: hidden;
-}
-.admin-date-card.soldout-flag {
-  border-color: var(--red);
-}
-.admin-date-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 14px;
-}
-.admin-date-label {
-  font-size: 14px;
-  font-weight: 500;
-  flex: 1;
-}
-.admin-date-meta {
-  font-size: 11px;
-  color: var(--text3);
-  margin-top: 2px;
-}
-.admin-date-actions {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.toggle-soldout {
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-.toggle-soldout.off {
-  background: rgba(192,57,43,0.15);
-  color: var(--red-light);
-  border: 1px solid rgba(192,57,43,0.4);
-}
-.toggle-soldout.on {
-  background: var(--red);
-  color: white;
-}
+.admin-section { margin-bottom: 24px; }
+.admin-section-title { font-size: 12px; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; padding-left: 2px; display: flex; align-items: center; gap: 6px; }
+.admin-date-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+.admin-date-card.soldout-flag { border-color: var(--red); }
+.admin-date-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; }
+.admin-date-label { font-size: 14px; font-weight: 500; flex: 1; }
+.admin-date-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.admin-date-actions { display: flex; gap: 6px; align-items: center; }
+.toggle-soldout { border-radius: 20px; padding: 4px 12px; font-size: 11px; font-family: inherit; cursor: pointer; border: none; font-weight: 500; transition: all 0.2s; }
+.toggle-soldout.off { background: rgba(192,57,43,0.15); color: var(--red-light); border: 1px solid rgba(192,57,43,0.4); }
+.toggle-soldout.on { background: var(--red); color: white; }
 .toggle-soldout:active { transform: scale(0.96); }
 
-/* フォーム */
-.form-group {
-  margin-bottom: 14px;
-}
-.form-label {
-  font-size: 11px;
-  color: var(--text3);
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-  display: block;
-}
-.form-input {
-  width: 100%;
-  background: var(--bg3);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
-  color: var(--text);
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.form-input:focus {
-  border-color: var(--gold);
-}
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.form-row-3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-}
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 11px; color: var(--text3); letter-spacing: 0.08em; margin-bottom: 6px; display: block; }
+.form-input { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 12px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; transition: border-color 0.2s; }
+.form-input:focus { border-color: var(--gold); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-.add-date-form {
-  background: var(--surface);
-  border: 1px dashed var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-top: 12px;
-}
-.add-date-form-title {
-  font-size: 13px;
-  color: var(--text2);
-  margin-bottom: 14px;
-  font-weight: 500;
-}
+.add-date-form { background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+.add-date-form-title { font-size: 13px; color: var(--text2); margin-bottom: 14px; font-weight: 500; }
 
-/* パスワード設定 */
-.pw-section {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-}
-.pw-status {
-  font-size: 12px;
-  color: var(--text3);
-  margin-bottom: 12px;
-  padding: 6px 10px;
-  background: var(--bg3);
-  border-radius: 6px;
-}
-.pw-status.active { color: #2ecc71; }
-
-/* 警告バナー */
-.warn-banner {
-  background: rgba(212,168,67,0.1);
-  border: 1px solid rgba(212,168,67,0.3);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 12px;
-  color: var(--gold);
-  margin-bottom: 16px;
-  line-height: 1.6;
-}
-
-/* 編集モーダル内フォーム */
+.pw-section { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 14px 16px; }
+.warn-banner { background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.3); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--gold); margin-bottom: 16px; line-height: 1.6; }
 .edit-form .form-group { margin-bottom: 12px; }
+
+.change-date-select { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 12px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; margin-bottom: 16px; }
+.change-date-select:focus { border-color: var(--gold); }
 </style>
 </head>
 <body>
@@ -652,12 +181,11 @@ body {
 <div class="header">
   <div class="header-top">
     <div>
-      <div class="header-title">台灣料理教室 陳</div>
+      <div class="header-title">台湾料理教室 陳</div>
       <div class="header-sub">予約管理システム</div>
     </div>
     <button class="sync-btn" id="syncBtn" onclick="syncData()">
-      <span class="spin" id="syncIcon">🔄</span>
-      <span>同期</span>
+      <span class="spin" id="syncIcon">🔄</span><span>同期</span>
     </button>
   </div>
 </div>
@@ -668,196 +196,101 @@ body {
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('dashboard')">
-    <span class="tab-icon">📊</span>概要
-  </div>
-  <div class="tab" onclick="switchTab('applicants')">
-    <span class="tab-icon">👥</span>申込者
-  </div>
-  <div class="tab" onclick="switchTab('danger')">
-    <span class="tab-icon">⚠️</span>危険日程
-  </div>
-  <div class="tab" onclick="switchTab('relocation')">
-    <span class="tab-icon">🔄</span>移動相談
-  </div>
-  <div class="tab" onclick="switchTab('decision')">
-    <span class="tab-icon">✅</span>開催判断
-  </div>
-  <div class="tab" onclick="switchTab('admin')">
-    <span class="tab-icon">⚙️</span>管理
-  </div>
+  <div class="tab active" onclick="switchTab('dashboard')"><span class="tab-icon">📊</span>概要</div>
+  <div class="tab" onclick="switchTab('applicants')"><span class="tab-icon">👥</span>申込者</div>
+  <div class="tab" onclick="switchTab('danger')"><span class="tab-icon">⚠️</span>危険日程</div>
+  <div class="tab" onclick="switchTab('relocation')"><span class="tab-icon">🔄</span>移動相談</div>
+  <div class="tab" onclick="switchTab('decision')"><span class="tab-icon">✅</span>開催判断</div>
+  <div class="tab" onclick="switchTab('admin')"><span class="tab-icon">⚙️</span>管理</div>
 </div>
 
-<!-- ダッシュボード -->
 <div class="page active" id="page-dashboard">
   <div class="content">
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-num" id="totalApplicants">—</div>
-        <div class="stat-label">総申込者数</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="totalPeople">—</div>
-        <div class="stat-label">総参加人数</div>
-      </div>
+      <div class="stat-card"><div class="stat-num" id="totalApplicants">—</div><div class="stat-label">総申込者数</div></div>
+      <div class="stat-card"><div class="stat-num" id="totalPeople">—</div><div class="stat-label">総参加人数</div></div>
     </div>
-
     <div class="section-title">日程別予約状況</div>
     <div class="date-cards" id="dateCards">
-      <div class="empty">
-        <div class="empty-icon">📅</div>
-        <div class="empty-text">同期ボタンを押してデータを取得してください</div>
-      </div>
+      <div class="empty"><div class="empty-icon">📅</div><div class="empty-text">同期ボタンを押してデータを取得してください</div></div>
     </div>
   </div>
 </div>
 
-<!-- 申込者一覧 -->
 <div class="page" id="page-applicants">
   <div class="content">
     <div class="filter-row" id="filterRow">
       <button class="filter-chip active" onclick="filterApplicants('all')">すべて</button>
     </div>
     <div class="applicant-list" id="applicantList">
-      <div class="empty">
-        <div class="empty-icon">👥</div>
-        <div class="empty-text">データを同期してください</div>
-      </div>
+      <div class="empty"><div class="empty-icon">👥</div><div class="empty-text">データを同期してください</div></div>
     </div>
   </div>
 </div>
 
-<!-- 危険日程 -->
 <div class="page" id="page-danger">
   <div class="content">
     <div class="section-title">重複・満席リスク</div>
     <div id="dangerContent">
-      <div class="empty">
-        <div class="empty-icon">✅</div>
-        <div class="empty-text">データを同期してください</div>
-      </div>
+      <div class="empty"><div class="empty-icon">✅</div><div class="empty-text">データを同期してください</div></div>
     </div>
   </div>
 </div>
 
-<!-- 移動相談 -->
 <div class="page" id="page-relocation">
   <div class="content">
     <div class="section-title">日程変更を希望する申込者</div>
     <div id="relocationContent">
-      <div class="empty">
-        <div class="empty-icon">🔄</div>
-        <div class="empty-text">データを同期してください</div>
-      </div>
+      <div class="empty"><div class="empty-icon">🔄</div><div class="empty-text">データを同期してください</div></div>
     </div>
   </div>
 </div>
 
-<!-- 開催判断 -->
 <div class="page" id="page-decision">
   <div class="content">
     <div class="section-title">日程ごとの開催状況</div>
     <div id="decisionContent">
-      <div class="empty">
-        <div class="empty-icon">✅</div>
-        <div class="empty-text">データを同期してください</div>
-      </div>
+      <div class="empty"><div class="empty-icon">✅</div><div class="empty-text">データを同期してください</div></div>
     </div>
   </div>
 </div>
 
-<!-- 管理タブ -->
 <div class="page" id="page-admin">
   <div class="content">
-
-    <!-- 満席設定 -->
     <div class="admin-section">
       <div class="admin-section-title">🚫 満席・受付状況の管理</div>
-      <div class="warn-banner">
-        定員に達すると自動的に「満席」バッジが表示され、フォームの選択肢からも自動削除されます。<br>
-        手動で変更することも可能です。
-      </div>
+      <div class="warn-banner">定員に達すると自動的に「満席」バッジが表示され、フォームの選択肢からも自動削除されます。<br>手動で変更することも可能です。</div>
       <div id="adminDateList"></div>
     </div>
-
     <div class="divider"></div>
-
-    <!-- 日程の追加・編集 -->
     <div class="admin-section">
       <div class="admin-section-title">📅 日程の追加・編集</div>
       <div id="adminDateEditList"></div>
-
-      <div class="add-date-form" id="addDateForm">
+      <div class="add-date-form">
         <div class="add-date-form-title">＋ 新しい日程を追加</div>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">月</label>
-            <input class="form-input" id="newMonth" type="number" placeholder="7" min="1" max="12">
-          </div>
-          <div class="form-group">
-            <label class="form-label">日</label>
-            <input class="form-input" id="newDay" type="number" placeholder="5" min="1" max="31">
-          </div>
+          <div class="form-group"><label class="form-label">月</label><input class="form-input" id="newMonth" type="number" placeholder="7" min="1" max="12"></div>
+          <div class="form-group"><label class="form-label">日</label><input class="form-input" id="newDay" type="number" placeholder="5" min="1" max="31"></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">曜日</label>
-            <select class="form-input" id="newDow">
-              <option value="月">月</option>
-              <option value="火">火</option>
-              <option value="水">水</option>
-              <option value="木">木</option>
-              <option value="金">金</option>
-              <option value="土" selected>土</option>
-              <option value="日">日</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">定員（名）</label>
-            <input class="form-input" id="newCapacity" type="number" placeholder="8" min="1" max="100">
-          </div>
+          <div class="form-group"><label class="form-label">曜日</label><select class="form-input" id="newDow"><option value="月">月</option><option value="火">火</option><option value="水">水</option><option value="木">木</option><option value="金">金</option><option value="土" selected>土</option><option value="日">日</option></select></div>
+          <div class="form-group"><label class="form-label">定員（名）</label><input class="form-input" id="newCapacity" type="number" placeholder="6" min="1" max="100"></div>
         </div>
-        <div class="form-group">
-          <label class="form-label">開始時間</label>
-          <input class="form-input" id="newTime" type="text" placeholder="午前10時">
-        </div>
+        <div class="form-group"><label class="form-label">開始時間</label><input class="form-input" id="newTime" type="text" placeholder="午前10時"></div>
         <button class="btn btn-success" style="width:100%" onclick="addDate()">この日程を追加する</button>
       </div>
     </div>
-
     <div class="divider"></div>
-
-    <!-- パスワード設定（将来用） -->
-    <div class="admin-section">
-      <div class="admin-section-title">🔒 パスワード設定（準備中）</div>
-      <div class="pw-section">
-        <div class="pw-status" id="pwStatus">現在: パスワードなし（誰でもアクセス可）</div>
-        <div class="form-group">
-          <label class="form-label">新しいパスワード</label>
-          <input class="form-input" id="pwInput" type="password" placeholder="パスワードを入力" disabled>
-        </div>
-        <button class="btn btn-outline" style="width:100%; opacity:0.5" disabled>この機能は近日対応予定です</button>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- データリセット -->
     <div class="admin-section">
       <div class="admin-section-title">🔁 シーズンリセット</div>
       <div class="pw-section">
-        <div style="font-size:12px; color:var(--text3); line-height:1.7; margin-bottom:12px">
-          新しいシーズンに移行する際、開催判断データ・満席フラグをリセットします。<br>
-          申込データ（スプレッドシート）はそのまま残ります。
-        </div>
+        <div style="font-size:12px; color:var(--text3); line-height:1.7; margin-bottom:12px">新しいシーズンに移行する際、開催判断データ・満席フラグをリセットします。<br>申込データ（スプレッドシート）はそのまま残ります。</div>
         <button class="btn btn-danger" style="width:100%" onclick="confirmReset()">開催判断・満席フラグをリセット</button>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- モーダル（共通） -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal" id="modal">
     <div class="modal-handle"></div>
@@ -866,354 +299,233 @@ body {
   </div>
 </div>
 
-<!-- ローディング -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-spinner"></div>
   <div class="loading-text">データを取得中...</div>
 </div>
 
-<!-- トースト -->
 <div class="toast" id="toast"></div>
 
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwry7F4jOi80E25qy3WkBPWmCyRSb9QVGxyhntd9_Qqc2YR5iPqPpUkpwyawUBRdAfjHA/exec';
-
-// ===== 日程マスタ（localStorageで永続化） =====
 const DATES_KEY = 'cooking_dates_v2';
+const SOLDOUT_KEY = 'cooking_soldout';
+const DECISION_KEY = 'cooking_decisions';
+
 const DEFAULT_DATES = [
-  { id: '7/5',  label: '7月5日（土）',  month: '7月', day: '5',  dow: '土', time: '午前10時', capacity: 8 },
-  { id: '7/12', label: '7月12日（土）', month: '7月', day: '12', dow: '土', time: '午前10時', capacity: 8 },
-  { id: '7/19', label: '7月19日（土）', month: '7月', day: '19', dow: '土', time: '午前10時', capacity: 8 },
-  { id: '7/26', label: '7月26日（土）', month: '7月', day: '26', dow: '土', time: '午前10時', capacity: 8 },
+  { id:'7/5',  label:'7月5日（土）',  month:'7月', day:'5',  dow:'土', time:'午前10時', capacity:6 },
+  { id:'7/12', label:'7月12日（土）', month:'7月', day:'12', dow:'土', time:'午前10時', capacity:6 },
+  { id:'7/19', label:'7月19日（土）', month:'7月', day:'19', dow:'土', time:'午前10時', capacity:6 },
+  { id:'7/26', label:'7月26日（土）', month:'7月', day:'26', dow:'土', time:'午前10時', capacity:6 },
 ];
 
 function getDates() {
-  try {
-    const d = JSON.parse(localStorage.getItem(DATES_KEY));
-    return Array.isArray(d) && d.length > 0 ? d : DEFAULT_DATES;
-  } catch { return DEFAULT_DATES; }
+  try { const d = JSON.parse(localStorage.getItem(DATES_KEY)); return Array.isArray(d) && d.length > 0 ? d : DEFAULT_DATES; } catch { return DEFAULT_DATES; }
 }
-function saveDates(dates) {
-  localStorage.setItem(DATES_KEY, JSON.stringify(dates));
-  // GASにPOSTしてGoogleフォームも自動更新
-  syncDatesToGAS(dates);
-}
+function saveDates(dates) { localStorage.setItem(DATES_KEY, JSON.stringify(dates)); syncDatesToGAS(dates); }
 
 async function loadDatesFromGAS() {
   try {
-    const res = await fetch(GAS_URL + '?action=getDates', { mode: 'cors' });
+    const res = await fetch(GAS_URL + '?action=getDates', { mode:'cors' });
     const json = await res.json();
-    if (json.status === 'ok' && Array.isArray(json.dates) && json.dates.length > 0) {
-      localStorage.setItem(DATES_KEY, JSON.stringify(json.dates));
-      return json.dates;
-    }
-  } catch(e) {
-    console.warn('GASからの日程取得失敗、localStorageを使用:', e);
-  }
+    if (json.status === 'ok' && Array.isArray(json.dates) && json.dates.length > 0) { localStorage.setItem(DATES_KEY, JSON.stringify(json.dates)); return json.dates; }
+  } catch(e) { console.warn('日程取得失敗:', e); }
   return getDates();
 }
 
 async function syncDatesToGAS(dates) {
   try {
-    const res = await fetch(GAS_URL, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ action: 'saveDates', dates: dates })
-    });
+    const res = await fetch(GAS_URL, { method:'POST', mode:'cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify({ action:'saveDates', dates }) });
     const json = await res.json();
-    if (json.status === 'ok') {
-      showToast('✅ Googleフォームも更新しました');
-    } else {
-      showToast('⚠️ フォーム更新に失敗: ' + (json.message || ''));
-    }
-  } catch(e) {
-    showToast('⚠️ フォーム更新に失敗しました');
-    console.error('GAS sync error:', e);
-  }
+    showToast(json.status === 'ok' ? '✅ Googleフォームも更新しました' : '⚠️ フォーム更新に失敗');
+  } catch(e) { showToast('⚠️ フォーム更新に失敗しました'); }
 }
-
-// ===== 満席フラグ =====
-const SOLDOUT_KEY = 'cooking_soldout';
 
 async function fetchSoldoutFromGAS() {
-  try {
-    const res = await fetch(GAS_URL + '?action=getSoldout');
-    const data = await res.json();
-    if (data.status === 'ok') {
-      localStorage.setItem(SOLDOUT_KEY, JSON.stringify(data.soldout));
-    }
-  } catch(e) { console.log('満席フラグ取得エラー', e); }
+  try { const res = await fetch(GAS_URL + '?action=getSoldout'); const data = await res.json(); if (data.status === 'ok') localStorage.setItem(SOLDOUT_KEY, JSON.stringify(data.soldout)); } catch(e) {}
 }
-function getSoldout() {
-  try { return JSON.parse(localStorage.getItem(SOLDOUT_KEY) || '{}'); } catch { return {}; }
-}
+function getSoldout() { try { return JSON.parse(localStorage.getItem(SOLDOUT_KEY) || '{}'); } catch { return {}; } }
 function toggleSoldout(dateId) {
-  const s = getSoldout();
-  s[dateId] = !s[dateId];
-  localStorage.setItem(SOLDOUT_KEY, JSON.stringify(s));
-  renderAll();
-  renderAdminPage();
+  const s = getSoldout(); s[dateId] = !s[dateId]; localStorage.setItem(SOLDOUT_KEY, JSON.stringify(s));
+  renderAll(); renderAdminPage();
   showToast(s[dateId] ? '🔴 満席に設定しました' : '✅ 受付中に戻しました');
-  // GASにも反映
-  fetch(GAS_URL, {
-    method: 'POST',
-    body: JSON.stringify({ action: 'setSoldout', dateId: dateId, soldout: !!s[dateId] })
-  }).catch(function(e) { console.log('満席フラグ送信エラー', e); });
+  fetch(GAS_URL, { method:'POST', body:JSON.stringify({ action:'setSoldout', dateId, soldout:!!s[dateId] }) }).catch(e => {});
 }
 
-// ===== 開催判断 =====
-const DECISION_KEY = 'cooking_decisions';
-function getDecisions() {
-  try { return JSON.parse(localStorage.getItem(DECISION_KEY) || '{}'); } catch { return {}; }
-}
-function saveDecision(dateId, status) {
-  const d = getDecisions();
-  d[dateId] = status;
-  localStorage.setItem(DECISION_KEY, JSON.stringify(d));
-}
+function getDecisions() { try { return JSON.parse(localStorage.getItem(DECISION_KEY) || '{}'); } catch { return {}; } }
+function saveDecision(dateId, status) { const d = getDecisions(); d[dateId] = status; localStorage.setItem(DECISION_KEY, JSON.stringify(d)); }
 
-let allData = [];
-let currentFilter = 'all';
-let currentTab = 'dashboard';
+let allData = [], currentFilter = 'all', currentTab = 'dashboard';
 
-// ===== タブ切替 =====
 function switchTab(tab) {
   currentTab = tab;
   const tabNames = ['dashboard','applicants','danger','relocation','decision','admin'];
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', tabNames[i] === tab);
-  });
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', tabNames[i] === tab));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + tab).classList.add('active');
   if (tab === 'admin') renderAdminPage();
 }
 
-// ===== 同期 =====
 async function syncData() {
   await fetchSoldoutFromGAS();
-  const btn = document.getElementById('syncBtn');
-  const dot = document.getElementById('statusDot');
-  const statusText = document.getElementById('statusText');
-
-  btn.classList.add('loading');
-  dot.className = 'status-dot loading';
-  statusText.textContent = 'データを取得中...';
+  const btn = document.getElementById('syncBtn'), dot = document.getElementById('statusDot'), statusText = document.getElementById('statusText');
+  btn.classList.add('loading'); dot.className = 'status-dot loading'; statusText.textContent = 'データを取得中...';
   document.getElementById('loadingOverlay').classList.add('show');
-
   try {
-    const res = await fetch(GAS_URL + '?action=getAll', { mode: 'cors' });
+    const res = await fetch(GAS_URL + '?action=getAll', { mode:'cors' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
-
     if (json.status === 'ok') {
-      allData = json.data || [];
-      renderAll();
+      allData = json.data || []; renderAll();
       dot.className = 'status-dot ok';
       const now = new Date().toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'});
       statusText.textContent = `最終同期: ${now} — ${allData.length}件取得`;
       showToast(`✅ ${allData.length}件のデータを取得しました`);
-    } else {
-      throw new Error(json.message || 'エラー');
-    }
-  } catch (e) {
-    dot.className = 'status-dot err';
-    statusText.textContent = 'エラー: ' + e.message;
+    } else throw new Error(json.message || 'エラー');
+  } catch(e) {
+    dot.className = 'status-dot err'; statusText.textContent = 'エラー: ' + e.message;
     showToast('❌ 取得に失敗しました: ' + e.message);
-    console.error(e);
-  } finally {
-    btn.classList.remove('loading');
-    document.getElementById('loadingOverlay').classList.remove('show');
-  }
+  } finally { btn.classList.remove('loading'); document.getElementById('loadingOverlay').classList.remove('show'); }
 }
 
-function renderAll() {
-  renderDashboard();
-  renderApplicants();
-  renderDanger();
-  renderRelocation();
-  renderDecision();
-}
+function renderAll() { renderDashboard(); renderApplicants(); renderDanger(); renderRelocation(); renderDecision(); }
 
-// ===== 日程IDを正規化 =====
 function normDate(str) {
-  str = String(str).replace(/\s/g, '');
-  if (!str) return '';
+  str = String(str).replace(/\s/g,''); if (!str) return '';
   const m = str.match(/(\d+)月\s*(\d+)/) || str.match(/(\d+)月(\d+)日/);
-  if (m) return m[1] + '/' + m[2];
-  return str;
+  if (m) return m[1] + '/' + m[2]; return str;
 }
 
-// ===== 日程別集計 =====
 function getDateStats() {
-  const DATES = getDates();
-  const stats = {};
-  DATES.forEach(d => { stats[d.id] = { count: 0, people: 0, names: [] }; });
-
+  const DATES = getDates(), stats = {};
+  DATES.forEach(d => { stats[d.id] = { count:0, people:0, names:[] }; });
   allData.forEach(row => {
-    const d1 = normDate(row.date1);
-    const people = parseInt(row.people) || 1;
-    const name = row.name || '名前なし';
-    if (stats[d1]) {
-      stats[d1].count++;
-      stats[d1].people += people;
-      stats[d1].names.push(name);
-    }
+    const d1 = normDate(row.date1), people = parseInt(row.people) || 1, name = row.name || '名前なし';
+    if (stats[d1]) { stats[d1].count++; stats[d1].people += people; stats[d1].names.push(name); }
   });
   return stats;
 }
 
-// ===== ダッシュボード =====
 function renderDashboard() {
-  const DATES = getDates();
-  const stats = getDateStats();
-  const soldout = getSoldout();
-  const total = allData.length;
-  const totalPeople = allData.reduce((s, r) => s + (parseInt(r.people) || 1), 0);
-
-  document.getElementById('totalApplicants').textContent = total;
-  document.getElementById('totalPeople').textContent = totalPeople;
-
+  const DATES = getDates(), stats = getDateStats(), soldout = getSoldout();
+  document.getElementById('totalApplicants').textContent = allData.length;
+  document.getElementById('totalPeople').textContent = allData.reduce((s,r) => s + (parseInt(r.people)||1), 0);
   const container = document.getElementById('dateCards');
-  if (DATES.length === 0) {
-    container.innerHTML = '<div class="empty"><div class="empty-text">日程がありません</div></div>';
-    return;
-  }
-
+  if (!DATES.length) { container.innerHTML = '<div class="empty"><div class="empty-text">日程がありません</div></div>'; return; }
   container.innerHTML = DATES.map(d => {
-    const s = stats[d.id] || { count: 0, people: 0 };
-    const isSoldout = soldout[d.id];
+    const s = stats[d.id] || {count:0, people:0}, isSoldout = soldout[d.id];
     const pct = Math.min(100, Math.round(s.people / d.capacity * 100));
-    const cls = isSoldout ? 'soldout' : (pct >= 100 ? 'full' : pct >= 75 ? 'warn' : 'open');
-    const fillCls = pct >= 100 ? 'full' : pct >= 75 ? 'warn' : '';
-
+    const cls = isSoldout ? 'soldout' : (pct>=100?'full':pct>=75?'warn':'open');
+    const fillCls = pct>=100?'full':pct>=75?'warn':'';
     return `<div class="date-card ${cls}" onclick="showDateDetail('${d.id}')">
-      <div class="date-badge">
-        <div class="date-month">${d.month}</div>
-        <div class="date-day">${d.day}</div>
-        <div class="date-dow">${d.dow}</div>
-      </div>
+      <div class="date-badge"><div class="date-month">${d.month}</div><div class="date-day">${d.day}</div><div class="date-dow">${d.dow}</div></div>
       <div class="date-info">
-        <div class="date-name">${d.label}${isSoldout ? ' <span class="soldout-badge">満席</span>' : ''}</div>
+        <div class="date-name">${d.label}${isSoldout?' <span class="soldout-badge">満席</span>':''}</div>
         <div class="date-meta">${d.time} · 定員${d.capacity}名</div>
         <div class="capacity-bar"><div class="capacity-fill ${fillCls}" style="width:${pct}%"></div></div>
       </div>
-      <div class="date-count">
-        <div class="count-num">${s.people}</div>
-        <div class="count-label">/ ${d.capacity}名</div>
-      </div>
+      <div class="date-count"><div class="count-num">${s.people}</div><div class="count-label">/ ${d.capacity}名</div></div>
     </div>`;
   }).join('');
 }
 
-// ===== 申込者一覧 =====
 function renderApplicants(filter) {
   if (filter !== undefined) currentFilter = filter;
   const DATES = getDates();
-
   const filterRow = document.getElementById('filterRow');
   filterRow.innerHTML = `<button class="filter-chip ${currentFilter==='all'?'active':''}" onclick="filterApplicants('all')">すべて</button>`
     + DATES.map(d => `<button class="filter-chip ${currentFilter===d.id?'active':''}" onclick="filterApplicants('${d.id}')">${d.label.replace(/（.）/,'')}</button>`).join('');
-
-  const filtered = currentFilter === 'all'
-    ? allData
-    : allData.filter(r => normDate(r.date1) === currentFilter || normDate(r.date2) === currentFilter);
-
+  const filtered = currentFilter==='all' ? allData : allData.filter(r => normDate(r.date1)===currentFilter || normDate(r.date2)===currentFilter);
   const container = document.getElementById('applicantList');
-  if (filtered.length === 0) {
-    container.innerHTML = '<div class="empty"><div class="empty-icon">👥</div><div class="empty-text">該当する申込者はいません</div></div>';
-    return;
-  }
-
-  container.innerHTML = filtered.map((r) => {
-    const d2 = normDate(r.date2);
+  if (!filtered.length) { container.innerHTML = '<div class="empty"><div class="empty-icon">👥</div><div class="empty-text">該当する申込者はいません</div></div>'; return; }
+  container.innerHTML = filtered.map(r => {
     const idx = allData.indexOf(r);
     return `<div class="applicant-card" onclick="showApplicantDetail(${idx})">
-      <div class="applicant-header">
-        <div class="applicant-name">${r.name || '名前なし'}</div>
-        <div class="applicant-count">${String(r.people || 1).replace(/名/g, "")}名</div>
-      </div>
+      <div class="applicant-header"><div class="applicant-name">${r.name||'名前なし'}</div><div class="applicant-count">${String(r.people||1).replace(/名/g,'')}名</div></div>
       <div class="applicant-dates">
-        <span class="applicant-date-tag">第一希望: ${r.date1 || '未選択'}</span>
-        ${d2 ? `<span class="applicant-date-tag">第二希望: ${r.date2}</span>` : ''}
+        <span class="applicant-date-tag">確定: ${r.date1||'未選択'}</span>
+        ${r.date2&&r.date2!=='なし'&&r.date2!=='繰り上げ済み'?`<span class="applicant-date-tag">第二: ${r.date2}</span>`:''}
       </div>
-      ${r.note ? `<div class="applicant-note">📝 ${r.note}</div>` : ''}
+      ${r.note?`<div class="applicant-note">📝 ${r.note}</div>`:''}
     </div>`;
   }).join('');
 }
 
-function filterApplicants(dateId) {
-  currentFilter = dateId;
-  renderApplicants();
-}
+function filterApplicants(dateId) { currentFilter = dateId; renderApplicants(); }
 
-// ===== 危険日程 =====
 function renderDanger() {
-  const DATES = getDates();
-  const stats = getDateStats();
-  const container = document.getElementById('dangerContent');
-  const dangers = [];
-
-  DATES.forEach(d => {
-    const s = stats[d.id] || { count: 0, people: 0, names: [] };
-    if (s.people >= d.capacity * 0.75) dangers.push({ date: d, stats: s });
-  });
-
-  if (dangers.length === 0) {
-    container.innerHTML = '<div class="danger-empty">⭕ 現在、危険な日程はありません</div>';
-    return;
-  }
-
-  container.innerHTML = dangers.map(({ date, stats: s }) => {
-    const pct = Math.round(s.people / date.capacity * 100);
-    const isFull = s.people >= date.capacity;
+  const DATES = getDates(), stats = getDateStats(), container = document.getElementById('dangerContent');
+  const dangers = DATES.filter(d => (stats[d.id]||{people:0}).people >= d.capacity * 0.75).map(d => ({date:d, stats:stats[d.id]}));
+  if (!dangers.length) { container.innerHTML = '<div class="danger-empty">⭕ 現在、危険な日程はありません</div>'; return; }
+  container.innerHTML = dangers.map(({date,stats:s}) => {
+    const pct = Math.round(s.people/date.capacity*100);
     return `<div class="danger-card">
-      <div class="danger-header">
-        <span class="danger-icon">${isFull ? '🔴' : '🟡'}</span>
-        <span class="danger-date-name">${date.label} — ${s.people}/${date.capacity}名 (${pct}%)</span>
-      </div>
-      <div class="danger-list">${s.names.map(n => `・${n}`).join('<br>') || '（申込者なし）'}</div>
+      <div class="danger-header"><span class="danger-icon">${s.people>=date.capacity?'🔴':'🟡'}</span><span class="danger-date-name">${date.label} — ${s.people}/${date.capacity}名 (${pct}%)</span></div>
+      <div class="danger-list">${s.names.map(n=>`・${n}`).join('<br>')||'（申込者なし）'}</div>
     </div>`;
   }).join('');
 }
 
-// ===== 移動相談 =====
 function renderRelocation() {
   const container = document.getElementById('relocationContent');
-  const want = allData.filter(r => r.relocation && r.relocation.includes('相談'));
-  if (want.length === 0) {
-    container.innerHTML = '<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">日程変更の相談はありません</div></div>';
-    return;
-  }
-  container.innerHTML = want.map(r => `
-    <div class="relocation-card">
-      <div class="relocation-name">${r.name || '名前なし'} (${String(r.people || 1).replace(/名/g, "")}名)</div>
+  const want = allData.filter(r => r.relocation && r.relocation.includes('可'));
+  if (!want.length) { container.innerHTML = '<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">日程変更の相談はありません</div></div>'; return; }
+  container.innerHTML = want.map(r => {
+    const idx = allData.indexOf(r);
+    return `<div class="relocation-card">
+      <div class="relocation-name">${r.name||'名前なし'} (${String(r.people||1).replace(/名/g,'')}名)</div>
       <div class="relocation-detail">
-        第一希望: ${r.date1 || '—'}<br>
-        第二希望: ${r.date2 || '—'}<br>
-        ${r.note ? `備考: ${r.note}` : ''}
+        確定日程: ${r.date1||'—'}<br>
+        第二希望: ${r.date2||'—'}<br>
+        第三希望: ${r.date3||'—'}<br>
+        ${r.note?`備考: ${r.note}`:''}
       </div>
-    </div>
-  `).join('');
+      <div style="margin-top:10px">
+        <button class="btn btn-warning btn-sm" onclick="showChangeDateModal(${idx})">📅 日程を変更する</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
-// ===== 開催判断 =====
-function renderDecision() {
+function showChangeDateModal(idx) {
+  const r = allData[idx]; if (!r) return;
   const DATES = getDates();
-  const stats = getDateStats();
-  const decisions = getDecisions();
-  const container = document.getElementById('decisionContent');
+  document.getElementById('modalTitle').textContent = r.name + ' の日程変更';
+  document.getElementById('modalBody').innerHTML = `
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">現在の確定日程: <strong style="color:var(--text)">${r.date1||'—'}</strong></div>
+    <div class="form-group">
+      <label class="form-label">変更先の日程を選択</label>
+      <select class="change-date-select" id="changeDateSelect">
+        ${DATES.map(d => `<option value="${d.label}" ${d.label===r.date1?'disabled':''}>${d.label}${d.label===r.date1?'（現在）':''}</option>`).join('')}
+      </select>
+    </div>
+    <button class="btn btn-warning" style="width:100%" onclick="confirmChangeDate('${r.name}')">この日程に変更してメールを送る</button>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
 
+async function confirmChangeDate(name) {
+  const newDate = document.getElementById('changeDateSelect').value;
+  if (!newDate) { showToast('⚠️ 日程を選択してください'); return; }
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('loadingOverlay').classList.add('show');
+  try {
+    const res = await fetch(GAS_URL, { method:'POST', mode:'cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify({ action:'changeDate', name, newDate }) });
+    const json = await res.json();
+    if (json.status === 'ok') { showToast('✅ 日程を変更しメールを送信しました'); await syncData(); }
+    else showToast('❌ 変更に失敗しました: ' + (json.message||''));
+  } catch(e) { showToast('❌ エラーが発生しました'); }
+  finally { document.getElementById('loadingOverlay').classList.remove('show'); }
+}
+
+function renderDecision() {
+  const DATES = getDates(), stats = getDateStats(), decisions = getDecisions(), container = document.getElementById('decisionContent');
+  const statusLabels = { open:'開催確定', closed:'中止', pending:'検討中' };
   container.innerHTML = DATES.map(d => {
-    const s = stats[d.id] || { count: 0, people: 0 };
-    const status = decisions[d.id] || 'pending';
-    const statusLabels = { open: '開催確定', closed: '中止', pending: '検討中' };
+    const s = stats[d.id]||{people:0}, status = decisions[d.id]||'pending';
     return `<div class="decision-card">
       <div class="decision-date-name">${d.label}</div>
-      <div class="decision-status-row">
-        <span class="status-badge ${status}">${statusLabels[status]}</span>
-        <span style="font-size:12px;color:var(--text3)">${s.people}名申込</span>
-      </div>
+      <div class="decision-status-row"><span class="status-badge ${status}">${statusLabels[status]}</span><span style="font-size:12px;color:var(--text3)">${s.people}名申込</span></div>
       <div class="btn-row">
         <button class="btn btn-success" onclick="setDecision('${d.id}','open')">開催確定</button>
         <button class="btn btn-primary" onclick="setDecision('${d.id}','closed')">中止</button>
@@ -1224,271 +536,147 @@ function renderDecision() {
 }
 
 function setDecision(dateId, status) {
-  saveDecision(dateId, status);
-  renderDecision();
-  const labels = { open: '開催確定', closed: '中止', pending: '検討中' };
+  saveDecision(dateId, status); renderDecision();
+  const labels = { open:'開催確定', closed:'中止', pending:'検討中' };
   showToast('✅ ' + labels[status] + 'に設定しました');
 }
 
-// ===== 管理ページ =====
 function renderAdminPage() {
-  const DATES = getDates();
-  const soldout = getSoldout();
-
-  // 満席管理リスト
-  const soldoutList = document.getElementById('adminDateList');
-  soldoutList.innerHTML = DATES.map(d => {
+  const DATES = getDates(), soldout = getSoldout();
+  document.getElementById('adminDateList').innerHTML = DATES.map(d => {
     const isSoldout = soldout[d.id];
-    return `<div class="admin-date-card ${isSoldout ? 'soldout-flag' : ''}">
+    return `<div class="admin-date-card ${isSoldout?'soldout-flag':''}">
       <div class="admin-date-header">
-        <div>
-          <div class="admin-date-label">${d.label}</div>
-          <div class="admin-date-meta">${d.time} · 定員 ${d.capacity}名</div>
-        </div>
-        <div class="admin-date-actions">
-          <button class="toggle-soldout ${isSoldout ? 'on' : 'off'}" onclick="toggleSoldout('${d.id}')">
-            ${isSoldout ? '🔴 満席中' : '受付中'}
-          </button>
-        </div>
+        <div><div class="admin-date-label">${d.label}</div><div class="admin-date-meta">${d.time} · 定員 ${d.capacity}名</div></div>
+        <div class="admin-date-actions"><button class="toggle-soldout ${isSoldout?'on':'off'}" onclick="toggleSoldout('${d.id}')">${isSoldout?'🔴 満席中':'受付中'}</button></div>
       </div>
     </div>`;
   }).join('') || '<div class="empty"><div class="empty-text">日程がありません</div></div>';
 
-  // 日程編集リスト
-  const editList = document.getElementById('adminDateEditList');
-  editList.innerHTML = DATES.map((d, i) => `
+  document.getElementById('adminDateEditList').innerHTML = DATES.map((d,i) => `
     <div class="admin-date-card">
       <div class="admin-date-header">
-        <div>
-          <div class="admin-date-label">${d.label}</div>
-          <div class="admin-date-meta">${d.time} · 定員 ${d.capacity}名</div>
-        </div>
+        <div><div class="admin-date-label">${d.label}</div><div class="admin-date-meta">${d.time} · 定員 ${d.capacity}名</div></div>
         <div class="admin-date-actions">
           <button class="btn btn-outline btn-sm" onclick="showEditDateModal(${i})">編集</button>
           <button class="btn btn-danger btn-sm" onclick="deleteDate(${i})">削除</button>
         </div>
       </div>
-    </div>
-  `).join('') || '<div class="empty"><div class="empty-text">日程がありません</div></div>';
+    </div>`).join('') || '<div class="empty"><div class="empty-text">日程がありません</div></div>';
 }
 
-// ===== 日程追加 =====
 function addDate() {
-  const month = document.getElementById('newMonth').value.trim();
-  const day = document.getElementById('newDay').value.trim();
-  const dow = document.getElementById('newDow').value;
-  const capacity = parseInt(document.getElementById('newCapacity').value) || 8;
-  const time = document.getElementById('newTime').value.trim() || '午前10時';
-
-  if (!month || !day) { showToast('⚠️ 月と日を入力してください'); return; }
-
-  const id = `${month}/${day}`;
-  const DATES = getDates();
-
-  if (DATES.find(d => d.id === id)) { showToast('⚠️ その日程はすでに登録されています'); return; }
-
-  const newDate = {
-    id,
-    label: `${month}月${day}日（${dow}）`,
-    month: `${month}月`,
-    day: String(day),
-    dow,
-    time,
-    capacity,
-  };
-
+  const month = document.getElementById('newMonth').value.trim(), day = document.getElementById('newDay').value.trim();
+  const dow = document.getElementById('newDow').value, capacity = parseInt(document.getElementById('newCapacity').value)||6;
+  const time = document.getElementById('newTime').value.trim()||'午前10時';
+  if (!month||!day) { showToast('⚠️ 月と日を入力してください'); return; }
+  const id = `${month}/${day}`, DATES = getDates();
+  if (DATES.find(d => d.id===id)) { showToast('⚠️ その日程はすでに登録されています'); return; }
+  const newDate = { id, label:`${month}月${day}日（${dow}）`, month:`${month}月`, day:String(day), dow, time, capacity };
   DATES.push(newDate);
-  // 日付順でソート
-  DATES.sort((a, b) => {
-    const [am, ad] = a.id.split('/').map(Number);
-    const [bm, bd] = b.id.split('/').map(Number);
-    return am !== bm ? am - bm : ad - bd;
-  });
+  DATES.sort((a,b) => { const [am,ad]=a.id.split('/').map(Number), [bm,bd]=b.id.split('/').map(Number); return am!==bm?am-bm:ad-bd; });
   saveDates(DATES);
-
-  // フォームリセット
-  ['newMonth','newDay','newCapacity','newTime'].forEach(id => { document.getElementById(id).value = ''; });
-
-  renderAll();
-  renderAdminPage();
+  ['newMonth','newDay','newCapacity','newTime'].forEach(id => { document.getElementById(id).value=''; });
+  renderAll(); renderAdminPage();
   showToast(`✅ ${newDate.label} を追加しました`);
 }
 
-// ===== 日程削除 =====
 function deleteDate(idx) {
-  const DATES = getDates();
-  const d = DATES[idx];
-  if (!d) return;
-  if (!confirm(`「${d.label}」を削除しますか？\n（この操作は元に戻せません）`)) return;
-  DATES.splice(idx, 1);
-  saveDates(DATES);
-  renderAll();
-  renderAdminPage();
+  const DATES = getDates(), d = DATES[idx]; if (!d) return;
+  if (!confirm(`「${d.label}」を削除しますか？`)) return;
+  DATES.splice(idx,1); saveDates(DATES); renderAll(); renderAdminPage();
   showToast(`🗑️ ${d.label} を削除しました`);
 }
 
-// ===== 日程編集モーダル =====
 function showEditDateModal(idx) {
-  const DATES = getDates();
-  const d = DATES[idx];
-  if (!d) return;
-
+  const DATES = getDates(), d = DATES[idx]; if (!d) return;
   document.getElementById('modalTitle').textContent = `${d.label} を編集`;
   document.getElementById('modalBody').innerHTML = `
     <div class="edit-form">
       <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">月</label>
-          <input class="form-input" id="editMonth" type="number" value="${d.month.replace('月','')}" min="1" max="12">
-        </div>
-        <div class="form-group">
-          <label class="form-label">日</label>
-          <input class="form-input" id="editDay" type="number" value="${d.day}" min="1" max="31">
-        </div>
+        <div class="form-group"><label class="form-label">月</label><input class="form-input" id="editMonth" type="number" value="${d.month.replace('月','')}"></div>
+        <div class="form-group"><label class="form-label">日</label><input class="form-input" id="editDay" type="number" value="${d.day}"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">曜日</label>
-          <select class="form-input" id="editDow">
-            ${['月','火','水','木','金','土','日'].map(w => `<option value="${w}" ${d.dow===w?'selected':''}>${w}</option>`).join('')}
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">定員（名）</label>
-          <input class="form-input" id="editCapacity" type="number" value="${d.capacity}" min="1" max="100">
-        </div>
+        <div class="form-group"><label class="form-label">曜日</label><select class="form-input" id="editDow">${['月','火','水','木','金','土','日'].map(w=>`<option value="${w}" ${d.dow===w?'selected':''}>${w}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-label">定員（名）</label><input class="form-input" id="editCapacity" type="number" value="${d.capacity}"></div>
       </div>
-      <div class="form-group">
-        <label class="form-label">開始時間</label>
-        <input class="form-input" id="editTime" type="text" value="${d.time}">
-      </div>
-      <div style="margin-top:4px">
-        <button class="btn btn-success" style="width:100%" onclick="saveEditDate(${idx})">保存する</button>
-      </div>
-    </div>
-  `;
+      <div class="form-group"><label class="form-label">開始時間</label><input class="form-input" id="editTime" type="text" value="${d.time}"></div>
+      <button class="btn btn-success" style="width:100%;margin-top:4px" onclick="saveEditDate(${idx})">保存する</button>
+    </div>`;
   document.getElementById('modalOverlay').classList.add('open');
 }
 
 function saveEditDate(idx) {
   const DATES = getDates();
-  const month = document.getElementById('editMonth').value.trim();
-  const day = document.getElementById('editDay').value.trim();
-  const dow = document.getElementById('editDow').value;
-  const capacity = parseInt(document.getElementById('editCapacity').value) || 8;
-  const time = document.getElementById('editTime').value.trim() || '午前10時';
-
-  if (!month || !day) { showToast('⚠️ 月と日を入力してください'); return; }
-
-  const oldId = DATES[idx].id;
-  const newId = `${month}/${day}`;
-
-  DATES[idx] = {
-    id: newId,
-    label: `${month}月${day}日（${dow}）`,
-    month: `${month}月`,
-    day: String(day),
-    dow,
-    time,
-    capacity,
-  };
-
-  // IDが変わった場合、満席フラグ・開催判断も移行
-  if (oldId !== newId) {
-    const soldout = getSoldout();
-    if (soldout[oldId] !== undefined) { soldout[newId] = soldout[oldId]; delete soldout[oldId]; localStorage.setItem(SOLDOUT_KEY, JSON.stringify(soldout)); }
-    const decisions = getDecisions();
-    if (decisions[oldId] !== undefined) { decisions[newId] = decisions[oldId]; delete decisions[oldId]; localStorage.setItem(DECISION_KEY, JSON.stringify(decisions)); }
+  const month = document.getElementById('editMonth').value.trim(), day = document.getElementById('editDay').value.trim();
+  const dow = document.getElementById('editDow').value, capacity = parseInt(document.getElementById('editCapacity').value)||6;
+  const time = document.getElementById('editTime').value.trim()||'午前10時';
+  if (!month||!day) { showToast('⚠️ 月と日を入力してください'); return; }
+  const oldId = DATES[idx].id, newId = `${month}/${day}`;
+  DATES[idx] = { id:newId, label:`${month}月${day}日（${dow}）`, month:`${month}月`, day:String(day), dow, time, capacity };
+  if (oldId!==newId) {
+    const s=getSoldout(); if(s[oldId]!==undefined){s[newId]=s[oldId];delete s[oldId];localStorage.setItem(SOLDOUT_KEY,JSON.stringify(s));}
+    const dec=getDecisions(); if(dec[oldId]!==undefined){dec[newId]=dec[oldId];delete dec[oldId];localStorage.setItem(DECISION_KEY,JSON.stringify(dec));}
   }
-
-  // ソート
-  DATES.sort((a, b) => {
-    const [am, ad] = a.id.split('/').map(Number);
-    const [bm, bd] = b.id.split('/').map(Number);
-    return am !== bm ? am - bm : ad - bd;
-  });
+  DATES.sort((a,b) => { const [am,ad]=a.id.split('/').map(Number),[bm,bd]=b.id.split('/').map(Number); return am!==bm?am-bm:ad-bd; });
   saveDates(DATES);
-
   document.getElementById('modalOverlay').classList.remove('open');
-  renderAll();
-  renderAdminPage();
-  showToast(`✅ 日程を更新しました`);
+  renderAll(); renderAdminPage();
+  showToast('✅ 日程を更新しました');
 }
 
-// ===== シーズンリセット =====
 function confirmReset() {
   if (!confirm('開催判断データと満席フラグをすべてリセットします。\nよろしいですか？')) return;
-  localStorage.removeItem(DECISION_KEY);
-  localStorage.removeItem(SOLDOUT_KEY);
-  renderAll();
-  renderAdminPage();
-  showToast('🔁 リセットしました');
+  localStorage.removeItem(DECISION_KEY); localStorage.removeItem(SOLDOUT_KEY);
+  renderAll(); renderAdminPage(); showToast('🔁 リセットしました');
 }
 
-// ===== 日程詳細モーダル =====
 function showDateDetail(dateId) {
-  const DATES = getDates();
-  const date = DATES.find(d => d.id === dateId);
-  if (!date) return;
-  const stats = getDateStats();
-  const s = stats[dateId] || { count: 0, people: 0, names: [] };
-  const applicants = allData.filter(r => normDate(r.date1) === dateId);
-  const decisions = getDecisions();
+  const DATES = getDates(), date = DATES.find(d=>d.id===dateId); if (!date) return;
+  const stats = getDateStats(), s = stats[dateId]||{count:0,people:0,names:[]};
+  const applicants = allData.filter(r=>normDate(r.date1)===dateId);
+  const status = (getDecisions()[dateId]||'pending');
+  const statusLabels = { open:'開催確定', closed:'中止', pending:'検討中' };
   const soldout = getSoldout();
-  const status = decisions[dateId] || 'pending';
-  const statusLabels = { open: '開催確定', closed: '中止', pending: '検討中' };
-
   document.getElementById('modalTitle').textContent = date.label;
   document.getElementById('modalBody').innerHTML = `
     <div class="modal-row"><span class="modal-label">開催時間</span><span class="modal-value">${date.time}</span></div>
     <div class="modal-row"><span class="modal-label">定員</span><span class="modal-value">${date.capacity}名</span></div>
     <div class="modal-row"><span class="modal-label">申込数</span><span class="modal-value">${s.count}件 (${s.people}名)</span></div>
-    <div class="modal-row"><span class="modal-label">受付状況</span><span class="modal-value">${soldout[dateId] ? '🔴 満席' : '✅ 受付中'}</span></div>
+    <div class="modal-row"><span class="modal-label">受付状況</span><span class="modal-value">${soldout[dateId]?'🔴 満席':'✅ 受付中'}</span></div>
     <div class="modal-row"><span class="modal-label">開催判断</span><span class="modal-value">${statusLabels[status]}</span></div>
     <div style="margin-top:12px;font-size:11px;color:var(--text3);margin-bottom:6px;">申込者リスト</div>
-    ${applicants.length === 0
-      ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:10px">申込者なし</div>'
-      : applicants.map(r => `<div class="modal-row"><span class="modal-label">${r.name || '名前なし'}</span><span class="modal-value">${String(r.people || 1).replace(/名/g, "")}名</span></div>`).join('')}
+    ${!applicants.length?'<div style="font-size:13px;color:var(--text3);text-align:center;padding:10px">申込者なし</div>'
+      :applicants.map(r=>`<div class="modal-row"><span class="modal-label">${r.name||'名前なし'}</span><span class="modal-value">${String(r.people||1).replace(/名/g,'')}名</span></div>`).join('')}
   `;
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-// ===== 申込者詳細モーダル =====
 function showApplicantDetail(idx) {
-  const r = allData[idx];
-  if (!r) return;
+  const r = allData[idx]; if (!r) return;
   document.getElementById('modalTitle').textContent = r.name || '名前なし';
   document.getElementById('modalBody').innerHTML = `
-    <div class="modal-row"><span class="modal-label">参加人数</span><span class="modal-value">${String(r.people || 1).replace(/名/g, "")}名</span></div>
-    <div class="modal-row"><span class="modal-label">第一希望</span><span class="modal-value">${r.date1 || '未選択'}</span></div>
-    <div class="modal-row"><span class="modal-label">第二希望</span><span class="modal-value">${r.date2 || '—'}</span></div>
-    <div class="modal-row"><span class="modal-label">日程変更相談</span><span class="modal-value">${r.relocation || '希望しない'}</span></div>
-    ${r.note ? `<div class="modal-row"><span class="modal-label">備考</span><span class="modal-value">${r.note}</span></div>` : ''}
-    <div class="modal-row"><span class="modal-label">申込日時</span><span class="modal-value">${r.timestamp || '—'}</span></div>
+    <div class="modal-row"><span class="modal-label">参加人数</span><span class="modal-value">${String(r.people||1).replace(/名/g,'')}名</span></div>
+    <div class="modal-row"><span class="modal-label">確定日程</span><span class="modal-value">${r.date1||'未選択'}</span></div>
+    <div class="modal-row"><span class="modal-label">第二希望</span><span class="modal-value">${r.date2||'—'}</span></div>
+    <div class="modal-row"><span class="modal-label">第三希望</span><span class="modal-value">${r.date3||'—'}</span></div>
+    <div class="modal-row"><span class="modal-label">日程変更相談</span><span class="modal-value">${r.relocation||'希望しない'}</span></div>
+    ${r.note?`<div class="modal-row"><span class="modal-label">備考</span><span class="modal-value">${r.note}</span></div>`:''}
+    <div class="modal-row"><span class="modal-label">申込日時</span><span class="modal-value">${r.timestamp||'—'}</span></div>
   `;
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-function closeModal(e) {
-  if (e.target === document.getElementById('modalOverlay')) {
-    document.getElementById('modalOverlay').classList.remove('open');
-  }
-}
+function closeModal(e) { if (e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open'); }
 
-// ===== トースト =====
 function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ===== 起動時 =====
 window.addEventListener('load', async () => {
-  await loadDatesFromGAS();
-  renderAll();
-  renderAdminPage();
-  setTimeout(syncData, 500);
+  await loadDatesFromGAS(); renderAll(); renderAdminPage(); setTimeout(syncData, 500);
 });
 </script>
 </body>
