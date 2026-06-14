@@ -487,18 +487,14 @@ function renderRelocation() {
   }).join('');
 }
 
-function showChangeDateModal(idx) {
-  const r = allData[idx]; if (!r) return;
-  const DATES = getDates();
-  const movingPeople = parseInt(String(r.people || 1)) || 1;
-
-  const dateStats = {};
-  DATES.forEach(d => { dateStats[d.id] = 0; });
-  allData.forEach(row => {
-    const d1 = normDate(row.date1);
-    const people = parseInt(String(row.people || 1)) || 1;
-    if (dateStats[d1] !== undefined) dateStats[d1] += people;
-  });
+const dateStats = {};
+DATES.forEach(d => { dateStats[d.id] = 0; });
+allData.forEach(row => {
+  if (row.name === r.name) return; // 移動対象者は除外
+  const d1 = normDate(row.date1);
+  const people = parseInt(String(row.people || 1)) || 1;
+  if (dateStats[d1] !== undefined) dateStats[d1] += people;
+});
 
   document.getElementById('modalTitle').textContent = r.name + ' の日程変更';
   document.getElementById('modalBody').innerHTML = `
