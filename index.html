@@ -490,15 +490,34 @@ function renderRelocation() {
 function showChangeDateModal(idx) {
   const r = allData[idx]; if (!r) return;
   const DATES = getDates();
+  const movingPeople = parseInt(String(r.people || 1)) || 1;
+
+  const dateStats = {};
+  DATES.forEach(d => { dateStats[d.id] = 0; });
+  allData.forEach(row => {
+    const d1 = normDate(row.date1);
+    const people = parseInt(String(row.people || 1)) || 1;
+    if (dateStats[d1] !== undefined) dateStats[d1] += people;
+  });
+
   document.getElementById('modalTitle').textContent = r.name + ' の日程変更';
   document.getElementById('modalBody').innerHTML = `
-    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">現在の確定日程: <strong style="color:var(--text)">${r.date1||'—'}</strong></div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">現在の確定日程: <strong style="color:var(--text)">${r.date1||'—'}</strong></div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">移動人数: <strong style="color:var(--gold)">${movingPeople}名</strong></div>
     <div class="form-group">
       <label class="form-label">変更先の日程を選択</label>
       <select class="change-date-select" id="changeDateSelect">
-        ${DATES.map(d => `<option value="${d.label}" ${d.label===r.date1?'disabled':''}>${d.label}${d.label===r.date1?'（現在）':''}</option>`).join('')}
+        ${DATES.map(d => {
+          const currentPeople = dateStats[d.id] || 0;
+          const available = d.capacity - currentPeople;
+          const isCurrent = d.label === r.date1;
+          const isFull = !isCurrent && available < movingPeople;
+          const label = isCurrent ? `${d.label}（現在）` : isFull ? `${d.label}（空き${available}名・選択不可）` : `${d.label}（空き${available}名）`;
+          return `<option value="${d.label}" ${isCurrent || isFull ? 'disabled' : ''}>${label}</option>`;
+        }).join('')}
       </select>
     </div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:12px;">※ 移動人数（${movingPeople}名）分の空きがある日程のみ選択できます</div>
     <button class="btn btn-warning" style="width:100%" onclick="confirmChangeDate('${r.name}')">この日程に変更してメールを送る</button>
   `;
   document.getElementById('modalOverlay').classList.add('open');
