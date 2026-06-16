@@ -176,6 +176,15 @@ body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: va
 
 .change-date-select { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 12px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; margin-bottom: 16px; }
 .change-date-select:focus { border-color: var(--gold); }
+
+/* シーズンリセット専用スタイル */
+.reset-date-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; font-size: 13px; }
+.reset-step { display: none; }
+.reset-step.active { display: block; }
+.reset-checklist { background: var(--bg3); border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; }
+.reset-checklist-item { font-size: 12px; color: var(--text2); padding: 5px 0; border-bottom: 1px solid var(--border2); line-height: 1.5; }
+.reset-checklist-item:last-child { border-bottom: none; }
+.reset-new-dates-preview { background: rgba(127,0,0,0.15); border: 1px solid rgba(192,57,43,0.4); border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; font-size: 12px; color: var(--text2); line-height: 2; }
 </style>
 </head>
 <body>
@@ -286,8 +295,51 @@ body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: va
     <div class="admin-section">
       <div class="admin-section-title">🔁 シーズンリセット</div>
       <div class="pw-section">
-        <div style="font-size:12px; color:var(--text3); line-height:1.7; margin-bottom:12px">新しいシーズンに移行する際、開催判断データ・満席フラグをリセットします。<br>申込データ（スプレッドシート）はそのまま残ります。</div>
-        <button class="btn btn-danger" style="width:100%" onclick="confirmReset()">開催判断・満席フラグをリセット</button>
+
+        <!-- ステップ1：新日程の入力 -->
+        <div class="reset-step active" id="resetStep1">
+          <div class="warn-banner">
+            ⚠️ 新しいシーズンの日程をすべて入力してから実行してください。<br>
+            <strong>申込データ・日程別シート・満席フラグ・開催判断がすべて消去され、Googleフォームも新日程に更新されます。</strong>
+          </div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">追加した日程一覧：</div>
+          <div id="resetDateList">
+            <div style="font-size:12px;color:var(--text3);padding:8px 0;">まだ日程が追加されていません</div>
+          </div>
+          <div class="add-date-form">
+            <div class="add-date-form-title">＋ 新シーズンの日程を追加</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">月</label><input class="form-input" id="resetMonth" type="number" placeholder="8" min="1" max="12"></div>
+              <div class="form-group"><label class="form-label">日</label><input class="form-input" id="resetDay" type="number" placeholder="2" min="1" max="31"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">曜日</label><select class="form-input" id="resetDow"><option value="月">月</option><option value="火">火</option><option value="水">水</option><option value="木">木</option><option value="金">金</option><option value="土" selected>土</option><option value="日">日</option></select></div>
+              <div class="form-group"><label class="form-label">定員（名）</label><input class="form-input" id="resetCapacity" type="number" placeholder="6" min="1" max="100"></div>
+            </div>
+            <div class="form-group"><label class="form-label">開始時間</label><input class="form-input" id="resetTime" type="text" placeholder="午前10時"></div>
+            <button class="btn btn-outline" style="width:100%" onclick="addResetDate()">この日程を追加</button>
+          </div>
+          <button class="btn btn-warning" style="width:100%;margin-top:14px" onclick="goToResetStep2()">次へ → 確認画面</button>
+        </div>
+
+        <!-- ステップ2：確認 -->
+        <div class="reset-step" id="resetStep2">
+          <div style="font-size:14px;font-weight:700;color:var(--red-light);margin-bottom:12px;">⚠️ 以下の操作を実行します</div>
+          <div class="reset-checklist">
+            <div class="reset-checklist-item">🗑️ 申込データ（スプレッドシート）をすべて削除</div>
+            <div class="reset-checklist-item">🗑️ 日程別シート（7月5日（土）など）をすべて削除</div>
+            <div class="reset-checklist-item">🔄 満席フラグ・開催判断をリセット</div>
+            <div class="reset-checklist-item">📅 Googleフォームの選択肢を新日程に更新</div>
+          </div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:6px;">新しい日程：</div>
+          <div class="reset-new-dates-preview" id="resetConfirmList"></div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:14px;">この操作は元に戻せません。よろしいですか？</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline" style="flex:1" onclick="backToResetStep1()">← 戻る</button>
+            <button class="btn btn-danger" style="flex:2" onclick="executeSeasonReset()">🔁 リセット実行</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -303,7 +355,7 @@ body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: va
 
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-spinner"></div>
-  <div class="loading-text">データを取得中...</div>
+  <div class="loading-text" id="loadingText">データを取得中...</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -646,10 +698,91 @@ function saveEditDate(idx) {
   showToast('✅ 日程を更新しました');
 }
 
-function confirmReset() {
-  if (!confirm('開催判断データと満席フラグをすべてリセットします。\nよろしいですか？')) return;
-  localStorage.removeItem(DECISION_KEY); localStorage.removeItem(SOLDOUT_KEY);
-  renderAll(); renderAdminPage(); showToast('🔁 リセットしました');
+// ─────────────────────────────────────────
+// シーズンリセット
+// ─────────────────────────────────────────
+let resetDates = [];
+
+function addResetDate() {
+  const month = document.getElementById('resetMonth').value.trim();
+  const day = document.getElementById('resetDay').value.trim();
+  const dow = document.getElementById('resetDow').value;
+  const capacity = parseInt(document.getElementById('resetCapacity').value) || 6;
+  const time = document.getElementById('resetTime').value.trim() || '午前10時';
+  if (!month || !day) { showToast('⚠️ 月と日を入力してください'); return; }
+  const id = `${month}/${day}`;
+  if (resetDates.find(d => d.id === id)) { showToast('⚠️ すでに追加されています'); return; }
+  resetDates.push({ id, label:`${month}月${day}日（${dow}）`, month:`${month}月`, day:String(day), dow, time, capacity });
+  resetDates.sort((a,b) => { const [am,ad]=a.id.split('/').map(Number),[bm,bd]=b.id.split('/').map(Number); return am!==bm?am-bm:ad-bd; });
+  ['resetMonth','resetDay','resetCapacity','resetTime'].forEach(id => { document.getElementById(id).value=''; });
+  renderResetDateList();
+  showToast(`✅ ${month}月${day}日（${dow}）を追加しました`);
+}
+
+function renderResetDateList() {
+  const container = document.getElementById('resetDateList');
+  if (!resetDates.length) {
+    container.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:8px 0;">まだ日程が追加されていません</div>';
+    return;
+  }
+  container.innerHTML = resetDates.map((d, i) => `
+    <div class="reset-date-item">
+      <span>${d.label}　${d.time}　定員${d.capacity}名</span>
+      <button class="btn btn-danger btn-sm" onclick="removeResetDate(${i})">✕</button>
+    </div>`).join('');
+}
+
+function removeResetDate(i) {
+  resetDates.splice(i, 1);
+  renderResetDateList();
+}
+
+function goToResetStep2() {
+  if (!resetDates.length) { showToast('⚠️ 新しい日程を1件以上追加してください'); return; }
+  document.getElementById('resetConfirmList').innerHTML =
+    resetDates.map(d => `・${d.label}　${d.time}　定員${d.capacity}名`).join('<br>');
+  document.getElementById('resetStep1').classList.remove('active');
+  document.getElementById('resetStep2').classList.add('active');
+}
+
+function backToResetStep1() {
+  document.getElementById('resetStep2').classList.remove('active');
+  document.getElementById('resetStep1').classList.add('active');
+}
+
+async function executeSeasonReset() {
+  const loadingText = document.getElementById('loadingText');
+  loadingText.textContent = 'シーズンリセット中...';
+  document.getElementById('loadingOverlay').classList.add('show');
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST', mode: 'cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'seasonReset', newDates: resetDates })
+    });
+    const json = await res.json();
+    if (json.status === 'ok') {
+      // localStorageも新日程で更新
+      localStorage.setItem(DATES_KEY, JSON.stringify(resetDates));
+      localStorage.removeItem(SOLDOUT_KEY);
+      localStorage.removeItem(DECISION_KEY);
+      allData = [];
+      // リセット後のUIを初期化
+      resetDates = [];
+      renderResetDateList();
+      backToResetStep1();
+      renderAll();
+      renderAdminPage();
+      showToast('✅ シーズンリセット完了！フォームも更新しました');
+    } else {
+      showToast('❌ リセット失敗: ' + (json.message || 'エラーが発生しました'));
+    }
+  } catch(e) {
+    showToast('❌ エラーが発生しました: ' + e.message);
+  } finally {
+    document.getElementById('loadingOverlay').classList.remove('show');
+    loadingText.textContent = 'データを取得中...';
+  }
 }
 
 function showDateDetail(dateId) {
