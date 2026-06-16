@@ -2,1426 +2,1045 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<link rel="apple-touch-icon" href="/cooking-class/icons/manual-icon-192x192.png">
-<link rel="manifest" href="/cooking-class/manual-manifest.json">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>台灣料理教室 陳 予約管理システム 管理者向け操作マニュアル</title>
+<title>台灣料理教室 陳｜予約管理システム マニュアル</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --red: #c0392b;
-  --red-dark: #8b1a10;
-  --gold: #d4a843;
-  --gold-light: #f0c060;
-  --bg: #fdf8f2;
-  --bg2: #f5ede0;
-  --surface: #fff;
-  --text: #2a1a10;
-  --text2: #5a3a28;
-  --text3: #9a7060;
-  --border: rgba(212,168,67,0.3);
-  --shadow: 0 2px 16px rgba(0,0,0,0.08);
-  --warn: #e67e22;
-  --warn-bg: #fef9f0;
-  --info: #2980b9;
-  --info-bg: #f0f7fd;
-  --ok: #27ae60;
-  --ok-bg: #f0faf4;
+  --red-light: #e8c4c0;
+  --gold: #c9952a;
+  --gold-light: #f5e6c8;
+  --ink: #1a0a08;
+  --ink2: #3d1e18;
+  --paper: #fdf6f0;
+  --paper2: #f5ede5;
+  --border: #d4b8a8;
+  --text: #2a1210;
+  --text2: #6b3d30;
+  --text3: #9a6050;
+  --green: #27ae60;
+  --green-light: #d5f0e0;
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
   font-family: 'Noto Sans JP', sans-serif;
-  background: var(--bg);
+  background: var(--paper);
   color: var(--text);
   line-height: 1.8;
 }
 
-/* ===== 表紙 ===== */
+/* ── カバー ── */
 .cover {
-  background: linear-gradient(160deg, #8b1a10 0%, #c0392b 40%, #6b0f0f 100%);
+  background: linear-gradient(160deg, var(--ink) 0%, var(--ink2) 60%, #5a1a10 100%);
+  color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px;
   text-align: center;
+  padding: 60px 40px;
   position: relative;
   overflow: hidden;
 }
+
 .cover::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a843' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c0392b' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.4;
 }
+
 .cover-inner { position: relative; z-index: 1; }
-.cover-border {
-  border: 2px solid rgba(212,168,67,0.6);
-  border-radius: 12px;
-  padding: 40px 32px;
+
+.cover-label {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
   margin-bottom: 24px;
+  border: 1px solid rgba(201,149,42,0.4);
+  display: inline-block;
+  padding: 6px 20px;
+  border-radius: 2px;
 }
-.cover-sub {
-  font-size: 13px;
-  color: rgba(212,168,67,0.8);
-  letter-spacing: 3px;
-  margin-bottom: 16px;
-  font-family: 'Noto Serif JP', serif;
-}
+
 .cover-title {
   font-family: 'Noto Serif JP', serif;
-  font-size: 28px;
-  color: #f0c060;
-  line-height: 1.5;
-  margin-bottom: 8px;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
 }
-.cover-title-en {
-  font-size: 11px;
-  color: rgba(212,168,67,0.7);
-  letter-spacing: 4px;
-  margin-bottom: 24px;
+
+.cover-title span { color: var(--gold); }
+
+.cover-subtitle {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 48px;
+  letter-spacing: 0.1em;
 }
+
 .cover-divider {
   width: 60px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #d4a843, transparent);
-  margin: 20px auto;
+  background: var(--gold);
+  margin: 0 auto 48px;
 }
-.cover-desc {
-  font-size: 13px;
-  color: rgba(255,255,255,0.7);
-  line-height: 2;
-}
+
 .cover-toc {
-  margin-top: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 500px;
   text-align: left;
 }
-.cover-toc-title {
-  font-size: 11px;
-  color: rgba(212,168,67,0.7);
-  letter-spacing: 3px;
-  margin-bottom: 12px;
-  text-align: center;
-}
+
 .cover-toc-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(212,168,67,0.15);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
   cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: block;
 }
-.cover-toc-item:last-child { border-bottom: none; }
-.cover-toc-num {
-  font-size: 11px;
-  color: var(--gold);
-  font-family: 'Noto Serif JP', serif;
-  min-width: 20px;
-}
-.cover-toc-text {
-  font-size: 13px;
-  color: rgba(255,255,255,0.8);
-}
-.cover-toc-badge {
-  margin-left: auto;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: rgba(212,168,67,0.2);
+
+.cover-toc-item:hover {
+  background: rgba(201,149,42,0.15);
+  border-color: rgba(201,149,42,0.4);
   color: var(--gold);
 }
 
-/* ===== ナビゲーション ===== */
+.cover-toc-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--red);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── ナビゲーション ── */
 .nav {
   position: sticky;
   top: 0;
+  background: var(--ink);
   z-index: 100;
-  background: var(--red-dark);
-  padding: 12px 16px;
+  padding: 0 24px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 2px solid var(--red);
 }
-.nav-title {
+
+.nav::-webkit-scrollbar { display: none; }
+
+.nav-logo {
+  font-family: 'Noto Serif JP', serif;
   font-size: 13px;
   color: var(--gold);
-  font-family: 'Noto Serif JP', serif;
-  flex: 1;
+  white-space: nowrap;
+  padding: 14px 20px 14px 0;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  margin-right: 8px;
+  flex-shrink: 0;
 }
-.nav-btn {
-  font-size: 11px;
-  color: rgba(255,255,255,0.7);
-  background: rgba(255,255,255,0.1);
-  border: none;
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-}
-.nav-btn:active { opacity: 0.7; }
 
-/* ===== セクション共通 ===== */
-.section {
-  padding: 32px 20px;
-  max-width: 680px;
+.nav a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 11px;
+  white-space: nowrap;
+  padding: 14px 12px;
+  transition: color 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.nav a:hover { color: var(--gold); }
+
+/* ── 章 ── */
+.chapter {
+  max-width: 860px;
   margin: 0 auto;
+  padding: 60px 32px;
+  border-bottom: 1px solid var(--border);
 }
-.section + .section {
-  border-top: 1px solid var(--border);
-}
-.section-header {
+
+.chapter-header {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--red-light);
 }
-.section-num {
+
+.chapter-num {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--red-light);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.chapter-meta { flex: 1; }
+
+.chapter-tag {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.chapter-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.chapter-desc {
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 8px;
+  line-height: 1.7;
+}
+
+/* ── セクション ── */
+.section { margin-bottom: 40px; }
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--red);
+  margin-bottom: 16px;
+  padding-left: 12px;
+  border-left: 3px solid var(--red);
+  line-height: 1.5;
+}
+
+/* ── ステップ ── */
+.steps { display: flex; flex-direction: column; gap: 16px; }
+
+.step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.step-num {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   background: var(--red);
-  color: #fff;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  font-family: 'Noto Serif JP', serif;
   flex-shrink: 0;
-}
-.section-title {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 20px;
-  color: var(--red-dark);
-}
-.section-subtitle {
-  font-size: 11px;
-  color: var(--text3);
-  letter-spacing: 2px;
   margin-top: 2px;
 }
 
-/* ===== クイックマニュアル ===== */
-.quick-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.quick-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-.quick-card-icon {
-  font-size: 28px;
-  margin-bottom: 8px;
-}
-.quick-card-title {
-  font-size: 13px;
+.step-body { flex: 1; }
+
+.step-label {
+  font-size: 14px;
   font-weight: 700;
-  color: var(--text);
   margin-bottom: 4px;
-}
-.quick-card-desc {
-  font-size: 11px;
-  color: var(--text3);
-  line-height: 1.6;
-}
-.quick-card-step {
-  margin-top: 8px;
-  font-size: 11px;
-  color: var(--red);
-  background: rgba(192,57,43,0.06);
-  border-radius: 6px;
-  padding: 4px 8px;
+  color: var(--text);
 }
 
-/* ===== 通常フロー ===== */
-.flow {
+.step-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+/* ── スクリーン画像モック ── */
+.screen-wrap {
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.screen-caption {
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+  margin-top: 10px;
+  letter-spacing: 0.05em;
+}
+
+.phone-frame {
+  width: 240px;
+  background: #1a1a1a;
+  border-radius: 32px;
+  padding: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.phone-notch {
+  width: 80px;
+  height: 20px;
+  background: #1a1a1a;
+  border-radius: 0 0 12px 12px;
+  margin: 0 auto 6px;
+  position: relative;
+  z-index: 2;
+}
+
+.phone-screen {
+  background: #1a0a08;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 420px;
+}
+
+/* アプリUIモック */
+.mock-header {
+  background: linear-gradient(135deg, #2a1210, #3a1a16);
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid rgba(212,168,67,0.2);
+}
+
+.mock-title { font-size: 11px; color: #d4a843; font-weight: 700; font-family: serif; }
+.mock-sub { font-size: 8px; color: #8a6058; }
+
+.mock-status {
+  background: #2e1510;
+  padding: 5px 14px;
+  font-size: 8px;
+  color: #2ecc71;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid rgba(192,57,43,0.3);
+}
+
+.mock-status-dot { width: 5px; height: 5px; border-radius: 50%; background: #2ecc71; }
+
+.mock-tabs {
+  display: flex;
+  background: #2a1210;
+  border-bottom: 1px solid rgba(212,168,67,0.2);
+}
+
+.mock-tab {
+  flex: 1;
+  text-align: center;
+  padding: 6px 2px;
+  font-size: 7px;
+  color: #8a6058;
+}
+
+.mock-tab.active { color: #d4a843; border-bottom: 1px solid #d4a843; }
+
+.mock-content { padding: 10px; }
+
+.mock-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+
+.mock-stat {
+  background: #2e1510;
+  border: 1px solid rgba(192,57,43,0.3);
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+
+.mock-stat-num { font-size: 16px; font-weight: 700; color: #d4a843; line-height: 1; }
+.mock-stat-label { font-size: 7px; color: #8a6058; margin-top: 2px; }
+
+.mock-date-card {
+  background: #2e1510;
+  border: 1px solid rgba(46,204,113,0.4);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.mock-date-card.full { border-color: rgba(192,57,43,0.6); }
+.mock-date-card.warn { border-color: rgba(212,168,67,0.6); }
+
+.mock-badge {
+  background: #3a1a16;
+  border-radius: 5px;
+  padding: 4px 6px;
+  text-align: center;
+  min-width: 28px;
+}
+
+.mock-badge-month { font-size: 6px; color: #8a6058; }
+.mock-badge-day { font-size: 12px; font-weight: 700; color: #f5ede8; line-height: 1; }
+.mock-badge-dow { font-size: 6px; color: #8a6058; }
+
+.mock-date-info { flex: 1; }
+.mock-date-name { font-size: 8px; font-weight: 500; color: #f5ede8; margin-bottom: 2px; }
+.mock-date-meta { font-size: 7px; color: #8a6058; }
+.mock-bar { height: 2px; background: #3a1a16; border-radius: 1px; margin-top: 3px; overflow: hidden; }
+.mock-bar-fill { height: 100%; border-radius: 1px; background: #2ecc71; }
+.mock-bar-fill.warn { background: #d4a843; }
+.mock-bar-fill.full { background: #e74c3c; }
+
+.mock-count { text-align: right; }
+.mock-count-num { font-size: 11px; font-weight: 700; color: #d4a843; }
+.mock-count-label { font-size: 6px; color: #8a6058; }
+
+.mock-soldout { background: #c0392b; color: white; font-size: 6px; font-weight: 700; padding: 1px 4px; border-radius: 2px; }
+
+/* ── ノート・ヒント ── */
+.note {
+  background: var(--gold-light);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--ink2);
+  margin: 16px 0;
+  line-height: 1.7;
+}
+
+.note-icon { font-size: 16px; margin-right: 6px; }
+
+.tip {
+  background: var(--green-light);
+  border-left: 3px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--ink2);
+  margin: 16px 0;
+  line-height: 1.7;
+}
+
+.warn {
+  background: #fdecea;
+  border-left: 3px solid var(--red);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--ink2);
+  margin: 16px 0;
+  line-height: 1.7;
+}
+
+/* ── タブ説明 ── */
+.tab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+
+.tab-card {
+  background: var(--paper2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.tab-card-icon { font-size: 20px; margin-bottom: 6px; }
+.tab-card-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.tab-card-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+/* ── 色凡例 ── */
+.color-legend { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+
+.color-item { display: flex; align-items: center; gap: 12px; }
+
+.color-swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.color-info { flex: 1; }
+.color-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.color-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+/* ── リセット手順 ── */
+.reset-flow {
   display: flex;
   flex-direction: column;
   gap: 0;
   margin: 16px 0;
-}
-.flow-item {
-  display: flex;
-  gap: 16px;
   position: relative;
 }
-.flow-item:not(:last-child)::after {
+
+.reset-flow::before {
   content: '';
   position: absolute;
-  left: 15px;
-  top: 32px;
-  bottom: -8px;
+  left: 20px;
+  top: 40px;
+  bottom: 40px;
   width: 2px;
-  background: linear-gradient(to bottom, var(--gold), rgba(212,168,67,0.2));
-}
-.flow-dot {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--gold);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 700;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.flow-content {
-  padding-bottom: 24px;
-  flex: 1;
-}
-.flow-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.flow-desc {
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.7;
+  background: linear-gradient(to bottom, var(--red), var(--gold));
 }
 
-/* ===== タブ説明 ===== */
-.tab-list {
+.reset-step {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 16px 0;
-}
-.tab-item {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
-  box-shadow: var(--shadow);
-}
-.tab-icon {
-  font-size: 24px;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.tab-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--red-dark);
-  margin-bottom: 4px;
-}
-.tab-desc {
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.7;
+  padding: 16px 0;
+  position: relative;
+  z-index: 1;
 }
 
-/* ===== 警告・注意・メモ ===== */
-.alert {
-  border-radius: 10px;
-  padding: 14px 16px;
-  margin: 16px 0;
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-.alert-warn {
-  background: var(--warn-bg);
-  border-left: 4px solid var(--warn);
-}
-.alert-info {
-  background: var(--info-bg);
-  border-left: 4px solid var(--info);
-}
-.alert-ok {
-  background: var(--ok-bg);
-  border-left: 4px solid var(--ok);
-}
-.alert-danger {
-  background: #fff5f5;
-  border-left: 4px solid #e74c3c;
-}
-.alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-.alert-body { flex: 1; }
-.alert-title {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.alert-warn .alert-title { color: var(--warn); }
-.alert-info .alert-title { color: var(--info); }
-.alert-ok .alert-title { color: var(--ok); }
-.alert-danger .alert-title { color: #e74c3c; }
-.alert-text { font-size: 12px; color: var(--text2); line-height: 1.7; }
-
-/* ===== 手順ステップ ===== */
-.steps {
-  margin: 16px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.step {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
-}
-.step-num {
-  min-width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--red);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.step-text { font-size: 13px; color: var(--text); line-height: 1.7; }
-.step-text strong { color: var(--red-dark); }
-.step-text code {
-  background: rgba(192,57,43,0.08);
-  color: var(--red-dark);
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 12px;
-}
-
-/* ===== 画面モックアップ ===== */
-.mockup {
-  background: #1a1a2e;
-  border-radius: 16px;
-  overflow: hidden;
-  margin: 16px 0;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-}
-.mockup-bar {
-  background: #8b1a10;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.mockup-bar-title {
-  font-size: 12px;
-  color: #f0c060;
-  font-family: 'Noto Serif JP', serif;
-}
-.mockup-body {
-  padding: 16px;
-}
-.mockup-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 12px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 8px;
-  padding: 4px;
-}
-.mockup-tab {
-  flex: 1;
-  text-align: center;
-  font-size: 9px;
-  color: rgba(255,255,255,0.5);
-  padding: 4px 2px;
-  border-radius: 5px;
-}
-.mockup-tab.active {
-  background: var(--red);
-  color: #fff;
-}
-.mockup-card {
-  background: rgba(255,255,255,0.07);
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
-}
-.mockup-card-title {
-  font-size: 10px;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 4px;
-}
-.mockup-card-value {
-  font-size: 16px;
-  color: #fff;
-  font-weight: 700;
-}
-.mockup-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-.mockup-date-card {
-  flex: 1;
-  background: rgba(255,255,255,0.07);
-  border-radius: 8px;
-  padding: 10px;
-}
-.mockup-date-name { font-size: 10px; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
-.mockup-date-bar {
-  height: 4px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 2px;
-  margin-bottom: 4px;
-  overflow: hidden;
-}
-.mockup-date-fill {
-  height: 100%;
-  border-radius: 2px;
-}
-.mockup-date-count { font-size: 9px; color: rgba(255,255,255,0.5); }
-.mockup-soldout-badge {
-  display: inline-block;
-  background: var(--red);
-  color: #fff;
-  font-size: 9px;
-  padding: 1px 6px;
-  border-radius: 4px;
-  margin-left: 4px;
-}
-.mockup-btn {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-size: 10px;
-  text-align: center;
-  margin: 4px 4px 0 0;
-}
-.mockup-btn-red { background: var(--red); color: #fff; }
-.mockup-btn-gold { background: var(--gold); color: #fff; }
-.mockup-btn-gray { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
-
-/* ===== GAS画面モック ===== */
-.gas-mock {
-  background: #1e1e1e;
-  border-radius: 12px;
-  overflow: hidden;
-  margin: 16px 0;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  font-family: monospace;
-}
-.gas-mock-bar {
-  background: #2d2d2d;
-  padding: 8px 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.gas-mock-dot {
-  width: 10px; height: 10px; border-radius: 50%;
-}
-.gas-mock-title { font-size: 11px; color: #aaa; margin-left: 8px; }
-.gas-mock-body { padding: 16px; }
-.gas-mock-toolbar {
-  background: #252525;
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid #333;
-}
-.gas-mock-run {
-  background: #4a9d4a;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 12px;
-  font-size: 11px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.gas-mock-select {
-  background: #333;
-  color: #ddd;
-  border: 1px solid #444;
-  border-radius: 4px;
-  padding: 3px 8px;
-  font-size: 11px;
-  min-width: 160px;
-}
-.gas-mock-code {
-  padding: 12px;
-  font-size: 11px;
-  line-height: 1.8;
-  color: #d4d4d4;
-  overflow-x: auto;
-}
-.gas-mock-code .keyword { color: #569cd6; }
-.gas-mock-code .fn { color: #dcdcaa; }
-.gas-mock-code .string { color: #ce9178; }
-.gas-mock-log {
-  background: #1a1a1a;
-  border-top: 1px solid #333;
-  padding: 10px 12px;
-}
-.gas-mock-log-title { font-size: 10px; color: #888; margin-bottom: 6px; }
-.gas-mock-log-item { font-size: 11px; color: #6a9955; margin-bottom: 2px; }
-
-/* ===== スプレッドシートモック ===== */
-.sheet-mock {
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 16px 0;
-  box-shadow: var(--shadow);
-  border: 1px solid #e0e0e0;
-}
-.sheet-mock-bar {
-  background: #0f9d58;
-  padding: 8px 14px;
-  font-size: 11px;
-  color: #fff;
-}
-.sheet-mock-tabs {
-  background: #f1f3f4;
-  padding: 4px 8px;
-  display: flex;
-  gap: 4px;
-}
-.sheet-mock-tab {
-  font-size: 10px;
-  padding: 3px 10px;
-  border-radius: 4px 4px 0 0;
-  color: #555;
-  background: #e0e0e0;
-}
-.sheet-mock-tab.active {
-  background: #fff;
-  color: #333;
-  font-weight: 700;
-}
-.sheet-mock-table {
-  width: 100%;
-  font-size: 10px;
-  border-collapse: collapse;
-  overflow-x: auto;
-  display: block;
-}
-.sheet-mock-table th {
-  background: #f1f3f4;
-  padding: 5px 8px;
-  text-align: left;
-  color: #666;
-  border: 1px solid #e0e0e0;
-  white-space: nowrap;
-}
-.sheet-mock-table td {
-  padding: 5px 8px;
-  border: 1px solid #e0e0e0;
-  color: #333;
-  white-space: nowrap;
-}
-.sheet-mock-table tr:nth-child(even) td { background: #f9f9f9; }
-.sheet-highlight { background: #fff3cd !important; }
-.sheet-red { color: #c0392b; font-weight: 700; }
-.sheet-green { color: #27ae60; font-weight: 700; }
-
-/* ===== 区切り ===== */
-.divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  margin: 8px 0;
-}
-.chapter-header {
-  background: linear-gradient(135deg, var(--red-dark), var(--red));
-  padding: 24px 20px;
-  text-align: center;
-}
-.chapter-header-title {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 18px;
-  color: var(--gold-light);
-  margin-bottom: 4px;
-}
-.chapter-header-sub {
-  font-size: 11px;
-  color: rgba(255,255,255,0.6);
-  letter-spacing: 2px;
-}
-
-/* ===== テキスト ===== */
-p { font-size: 13px; color: var(--text2); line-height: 1.8; margin-bottom: 12px; }
-p:last-child { margin-bottom: 0; }
-.label {
-  display: inline-block;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin: 2px;
-  font-weight: 700;
-}
-.label-auto { background: #e8f5e9; color: #2e7d32; }
-.label-manual { background: #fff3e0; color: #e65100; }
-.label-important { background: #ffebee; color: #c62828; }
-.label-new { background: #e3f2fd; color: #1565c0; }
-
-.highlight-box {
-  background: linear-gradient(135deg, rgba(192,57,43,0.05), rgba(212,168,67,0.05));
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  margin: 16px 0;
-}
-.highlight-box-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--red-dark);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* ===== Android/iOS比較 ===== */
-.os-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 16px 0;
-}
-.os-card {
-  background: var(--surface);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-}
-.os-card-header {
-  padding: 10px 14px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.os-card-header.ios { background: #1c1c1e; }
-.os-card-header.android { background: #3ddc84; color: #1a1a1a; }
-.os-card-body { padding: 12px 14px; }
-.os-step { font-size: 12px; color: var(--text2); padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.05); line-height: 1.6; }
-.os-step:last-child { border-bottom: none; }
-.os-step-num { color: var(--red); font-weight: 700; margin-right: 4px; }
-
-/* ===== フッター ===== */
-.footer {
-  background: var(--red-dark);
-  padding: 24px 20px;
-  text-align: center;
-}
-.footer-text { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 2; }
-.footer-logo {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 16px;
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-
-/* ===== ページトップ ===== */
-.page-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+.reset-step-icon {
   width: 40px;
   height: 40px;
-  background: var(--red);
-  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  z-index: 200;
-  opacity: 0;
-  transition: opacity 0.3s;
+  font-size: 18px;
+  flex-shrink: 0;
+  background: var(--paper);
+  border: 2px solid var(--red);
 }
-.page-top.visible { opacity: 1; }
+
+.reset-step-body { flex: 1; padding-top: 8px; }
+.reset-step-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.reset-step-desc { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+/* ── フッター ── */
+.footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  padding: 40px 24px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.footer-title { color: var(--gold); font-family: 'Noto Serif JP', serif; font-size: 16px; margin-bottom: 8px; }
+
+/* ── レスポンシブ ── */
+@media (max-width: 600px) {
+  .chapter { padding: 40px 20px; }
+  .cover-toc { grid-template-columns: 1fr; }
+  .tab-grid { grid-template-columns: 1fr; }
+  .phone-frame { width: 200px; }
+}
+
+/* ── スムーススクロール ── */
+html { scroll-behavior: smooth; }
+
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--red);
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.back-to-top:hover { transform: translateY(-2px); }
+
+/* 2カラムレイアウト */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 700px) {
+  .two-col { grid-template-columns: 1fr; }
+}
+
+p { margin-bottom: 12px; font-size: 14px; color: var(--text2); line-height: 1.8; }
+ul, ol { padding-left: 20px; margin-bottom: 12px; }
+li { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 4px; }
 </style>
 </head>
 <body>
 
-<!-- ===== 表紙 ===== -->
+<!-- カバー -->
 <div class="cover" id="top">
   <div class="cover-inner">
-    <div class="cover-border">
-      <div class="cover-sub">ADMINISTRATOR MANUAL</div>
-      <div class="cover-title">台灣料理教室 陳<br>予約管理システム</div>
-      <div class="cover-title-en">OPERATIONS MANUAL</div>
-      <div class="cover-divider"></div>
-      <div class="cover-desc">
-        管理者向け操作マニュアル<br>
-        <span style="font-size:11px; opacity:0.6;">2026年6月版</span>
-      </div>
-    </div>
-
+    <div class="cover-label">操作マニュアル</div>
+    <div class="cover-title">台灣料理教室 陳<br><span>予約管理システム</span></div>
+    <div class="cover-subtitle">スマートフォン対応 予約管理アプリ</div>
+    <div class="cover-divider"></div>
     <div class="cover-toc">
-      <div class="cover-toc-title">— 目 次 —</div>
-      <div class="cover-toc-item" onclick="gotoSection('quick')">
-        <span class="cover-toc-num">Ⅰ</span>
-        <span class="cover-toc-text">クイックマニュアル（毎日の操作）</span>
-        <span class="cover-toc-badge">必読</span>
-      </div>
-      <div class="cover-toc-item" onclick="gotoSection('tabs')">
-        <span class="cover-toc-num">Ⅱ</span>
-        <span class="cover-toc-text">各タブの説明</span>
-      </div>
-      <div class="cover-toc-item" onclick="gotoSection('auto')">
-        <span class="cover-toc-num">Ⅲ</span>
-        <span class="cover-toc-text">自動化機能について</span>
-        <span class="cover-toc-badge">新機能</span>
-      </div>
-      <div class="cover-toc-item" onclick="gotoSection('newseason')">
-        <span class="cover-toc-num">Ⅳ</span>
-        <span class="cover-toc-text">新シーズン移行手順</span>
-        <span class="cover-toc-badge">重要</span>
-      </div>
-      <div class="cover-toc-item" onclick="gotoSection('install')">
-        <span class="cover-toc-num">Ⅴ</span>
-        <span class="cover-toc-text">アプリのインストール方法</span>
-      </div>
-      <div class="cover-toc-item" onclick="gotoSection('trouble')">
-        <span class="cover-toc-num">Ⅵ</span>
-        <span class="cover-toc-text">困ったときは</span>
-      </div>
+      <a class="cover-toc-item" href="#ch1"><span class="cover-toc-num">01</span>システム概要</a>
+      <a class="cover-toc-item" href="#ch2"><span class="cover-toc-num">02</span>アプリの起動と同期</a>
+      <a class="cover-toc-item" href="#ch3"><span class="cover-toc-num">03</span>申込者の確認</a>
+      <a class="cover-toc-item" href="#ch4"><span class="cover-toc-num">04</span>日程変更の対応</a>
+      <a class="cover-toc-item" href="#ch5"><span class="cover-toc-num">05</span>満席・受付の管理</a>
+      <a class="cover-toc-item" href="#ch6"><span class="cover-toc-num">06</span>開催判断の設定</a>
+      <a class="cover-toc-item" href="#ch7"><span class="cover-toc-num">07</span>日程の追加・編集</a>
+      <a class="cover-toc-item" href="#ch8"><span class="cover-toc-num">08</span>シーズンリセット</a>
     </div>
   </div>
 </div>
 
-<!-- ===== ナビ ===== -->
-<div class="nav">
-  <div class="nav-title">台灣料理教室 陳 操作マニュアル</div>
-  <button class="nav-btn" onclick="gotoSection('top')">▲ 表紙へ</button>
-</div>
+<!-- ナビ -->
+<nav class="nav">
+  <div class="nav-logo">台灣料理教室 陳</div>
+  <a href="#ch1">概要</a>
+  <a href="#ch2">起動</a>
+  <a href="#ch3">申込者</a>
+  <a href="#ch4">日程変更</a>
+  <a href="#ch5">満席管理</a>
+  <a href="#ch6">開催判断</a>
+  <a href="#ch7">日程編集</a>
+  <a href="#ch8">リセット</a>
+</nav>
 
-<!-- ===== Ⅰ クイックマニュアル ===== -->
-<div id="quick" class="chapter-header">
-  <div class="chapter-header-title">Ⅰ　クイックマニュアル</div>
-  <div class="chapter-header-sub">QUICK REFERENCE — 毎日の操作はここで確認</div>
-</div>
-
-<div class="section">
-  <div class="alert alert-info">
-    <span class="alert-icon">💡</span>
-    <div class="alert-body">
-      <div class="alert-title">このページについて</div>
-      <div class="alert-text">日常的によく使う操作をまとめています。詳しい説明は各章をご覧ください。新シーズンへの移行など重要な操作は必ず第Ⅳ章を確認してください。</div>
+<!-- Chapter 1 -->
+<div class="chapter" id="ch1">
+  <div class="chapter-header">
+    <div class="chapter-num">01</div>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Overview</div>
+      <div class="chapter-title">システム概要</div>
+      <div class="chapter-desc">このシステムが何をするものか、どんな仕組みで動いているかを説明します。</div>
     </div>
   </div>
 
-  <div class="section-header">
-    <div class="section-title" style="font-size:16px;">よく使う操作</div>
-  </div>
-
-  <div class="quick-grid">
-    <div class="quick-card">
-      <div class="quick-card-icon">👥</div>
-      <div class="quick-card-title">申込者を確認する</div>
-      <div class="quick-card-desc">「申込者」タブを開く</div>
-      <div class="quick-card-step">→ 日程ごとにフィルター可能</div>
-    </div>
-    <div class="quick-card">
-      <div class="quick-card-icon">🔄</div>
-      <div class="quick-card-title">最新データに更新</div>
-      <div class="quick-card-desc">画面右上「同期」ボタンをタップ</div>
-      <div class="quick-card-step">→ 自動で最新情報を取得</div>
-    </div>
-    <div class="quick-card">
-      <div class="quick-card-icon">⚠️</div>
-      <div class="quick-card-title">危険日程を確認</div>
-      <div class="quick-card-desc">「危険日程」タブを開く</div>
-      <div class="quick-card-step">→ 要注意の申込者を表示</div>
-    </div>
-    <div class="quick-card">
-      <div class="quick-card-icon">🔴</div>
-      <div class="quick-card-title">満席状況を確認</div>
-      <div class="quick-card-desc">「概要」タブで各日程を確認</div>
-      <div class="quick-card-step">→ 満席は自動で表示される</div>
-    </div>
-    <div class="quick-card">
-      <div class="quick-card-icon">📋</div>
-      <div class="quick-card-title">移動相談を確認</div>
-      <div class="quick-card-desc">「移動相談」タブを開く</div>
-      <div class="quick-card-step">→ 日程変更希望者の一覧</div>
-    </div>
-    <div class="quick-card">
-      <div class="quick-card-icon">✅</div>
-      <div class="quick-card-title">開催判断を行う</div>
-      <div class="quick-card-desc">「開催判断」タブで各日程を判断</div>
-      <div class="quick-card-step">→ 開催／中止を記録</div>
+  <div class="section">
+    <div class="section-title">このシステムでできること</div>
+    <p>台灣料理教室 陳の予約管理を、スマートフォン1台で完結できるシステムです。Googleフォームから届いた申込データをリアルタイムで確認し、満席判定・日程変更・シーズン切り替えまですべてアプリから操作できます。</p>
+    <div class="tab-grid">
+      <div class="tab-card"><div class="tab-card-icon">📊</div><div class="tab-card-name">概要</div><div class="tab-card-desc">申込者数・参加人数の集計と日程別の予約状況をひと目で確認</div></div>
+      <div class="tab-card"><div class="tab-card-icon">👥</div><div class="tab-card-name">申込者</div><div class="tab-card-desc">氏名・参加人数・希望日程・備考など申込者一覧を日程別に絞り込み</div></div>
+      <div class="tab-card"><div class="tab-card-icon">⚠️</div><div class="tab-card-name">危険日程</div><div class="tab-card-desc">定員の75%以上に達した日程を自動検出してアラート表示</div></div>
+      <div class="tab-card"><div class="tab-card-icon">🔄</div><div class="tab-card-name">移動相談</div><div class="tab-card-desc">日程変更を希望している申込者の一覧と変更操作</div></div>
+      <div class="tab-card"><div class="tab-card-icon">✅</div><div class="tab-card-name">開催判断</div><div class="tab-card-desc">日程ごとに「開催確定」「中止」「検討中」を設定</div></div>
+      <div class="tab-card"><div class="tab-card-icon">⚙️</div><div class="tab-card-name">管理</div><div class="tab-card-desc">日程の追加・編集・満席設定・シーズンリセット</div></div>
     </div>
   </div>
 
-  <div class="alert alert-ok">
-    <span class="alert-icon">🤖</span>
-    <div class="alert-body">
-      <div class="alert-title">自動化されている操作（何もしなくてOK）</div>
-      <div class="alert-text">
-        ✅ 定員に達したら満席バッジが自動表示<br>
-        ✅ フォームの選択肢から満席日程が自動削除<br>
-        ✅ 定員超えの方は自動で第二希望に移動<br>
-        ✅ 移動になった方へ自動でメール通知
-      </div>
-    </div>
+  <div class="section">
+    <div class="section-title">仕組みの全体像</div>
+    <p>Googleフォームに申込が届くと、スプレッドシートに自動記録され、申込者に確認メールが自動送信されます。満席になると自動でフォームの選択肢から削除され、次の希望日程に自動繰り上げされます。このアプリはそのスプレッドシートのデータをリアルタイムで読み込んで表示しています。</p>
+    <div class="note"><span class="note-icon">💡</span>申込データの正式な保存先はGoogleスプレッドシートです。アプリはその「表示と操作の窓口」です。</div>
   </div>
 
-  <div class="section-header" style="margin-top:24px;">
-    <div class="section-title" style="font-size:16px;">⚠️ 新シーズン移行時は必ずこの順番で</div>
-  </div>
-
-  <div class="alert alert-danger">
-    <span class="alert-icon">🚨</span>
-    <div class="alert-body">
-      <div class="alert-title">順番を間違えると申込データが消えたり、フォームが正しく更新されない恐れがあります</div>
-      <div class="alert-text">詳細は <strong>第Ⅳ章「新シーズン移行手順」</strong> を必ず確認してください。</div>
-    </div>
-  </div>
-
-  <div class="flow">
-    <div class="flow-item">
-      <div class="flow-dot">1</div>
-      <div class="flow-content">
-        <div class="flow-title">申込データのバックアップ（任意）</div>
-        <div class="flow-desc">スプレッドシートを開いてデータをコピー保存しておく</div>
-      </div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">2</div>
-      <div class="flow-content">
-        <div class="flow-title">回答データを削除</div>
-        <div class="flow-desc">スプレッドシートの「フォームの回答1」シートの2行目以降を削除</div>
-      </div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">3</div>
-      <div class="flow-content">
-        <div class="flow-title">新日程を設定</div>
-        <div class="flow-desc">アプリの「管理」タブで日程を編集して保存</div>
-      </div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">4</div>
-      <div class="flow-content">
-        <div class="flow-title">testUpdateFormを実行</div>
-        <div class="flow-desc">GASエディタで <code style="background:rgba(0,0,0,0.06);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:12px;">testUpdateForm</code> を実行してフォームの選択肢を更新</div>
-      </div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">5</div>
-      <div class="flow-content">
-        <div class="flow-title">満席フラグをリセット</div>
-        <div class="flow-desc">アプリの「管理」タブ → 「開催判断・満席フラグをリセット」</div>
-      </div>
+  <div class="section">
+    <div class="section-title">色の意味（申込者名の背景色）</div>
+    <p>スプレッドシートの申込者名の背景色は、どの希望順位で確定したかを示しています。</p>
+    <div class="color-legend">
+      <div class="color-item"><div class="color-swatch" style="background:#B7E1CD"></div><div class="color-info"><div class="color-name">緑</div><div class="color-desc">第一希望の日程で確定</div></div></div>
+      <div class="color-item"><div class="color-swatch" style="background:#FFE599"></div><div class="color-info"><div class="color-name">黄</div><div class="color-desc">第二希望の日程に繰り上げ確定</div></div></div>
+      <div class="color-item"><div class="color-swatch" style="background:#F9CB9C"></div><div class="color-info"><div class="color-name">オレンジ</div><div class="color-desc">第三希望の日程に繰り上げ確定</div></div></div>
     </div>
   </div>
 </div>
 
-<!-- ===== Ⅱ 各タブの説明 ===== -->
-<div id="tabs" class="chapter-header">
-  <div class="chapter-header-title">Ⅱ　各タブの説明</div>
-  <div class="chapter-header-sub">TABS OVERVIEW</div>
-</div>
-
-<div class="section">
-  <div class="mockup">
-    <div class="mockup-bar">
-      <div class="mockup-bar-title">台灣料理教室 陳　予約管理システム</div>
-    </div>
-    <div class="mockup-body">
-      <div class="mockup-tabs">
-        <div class="mockup-tab active">概要</div>
-        <div class="mockup-tab">申込者</div>
-        <div class="mockup-tab">危険</div>
-        <div class="mockup-tab">移動</div>
-        <div class="mockup-tab">開催</div>
-        <div class="mockup-tab">管理</div>
-      </div>
-      <div class="mockup-row">
-        <div class="mockup-card" style="flex:1">
-          <div class="mockup-card-title">総申込者数</div>
-          <div class="mockup-card-value">12名</div>
-        </div>
-        <div class="mockup-card" style="flex:1">
-          <div class="mockup-card-title">総参加人数</div>
-          <div class="mockup-card-value">34名</div>
-        </div>
-      </div>
-      <div class="mockup-row">
-        <div class="mockup-date-card">
-          <div class="mockup-date-name">7月5日（土）<span class="mockup-soldout-badge">満席</span></div>
-          <div class="mockup-date-bar"><div class="mockup-date-fill" style="width:100%;background:#e74c3c;"></div></div>
-          <div class="mockup-date-count">8/8名</div>
-        </div>
-        <div class="mockup-date-card">
-          <div class="mockup-date-name">7月12日（土）</div>
-          <div class="mockup-date-bar"><div class="mockup-date-fill" style="width:50%;background:#f39c12;"></div></div>
-          <div class="mockup-date-count">4/8名</div>
-        </div>
-      </div>
+<!-- Chapter 2 -->
+<div class="chapter" id="ch2">
+  <div class="chapter-header">
+    <div class="chapter-num">02</div>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Getting Started</div>
+      <div class="chapter-title">アプリの起動とデータ同期</div>
+      <div class="chapter-desc">アプリを開いてデータを取得するまでの手順です。</div>
     </div>
   </div>
 
-  <div class="tab-list">
-    <div class="tab-item">
-      <div class="tab-icon">📊</div>
-      <div>
-        <div class="tab-name">概要タブ</div>
-        <div class="tab-desc">総申込者数・参加人数と、日程ごとの予約状況をひと目で確認できます。定員に近い日程はバーの色が変わります（黄→赤）。満席になると「満席」バッジが自動表示されます。</div>
+  <div class="two-col">
+    <div>
+      <div class="section">
+        <div class="section-title">アプリを開く</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-label">ホーム画面のアイコンをタップ</div>
+              <div class="step-desc">「台灣料理教室 陳」のアイコンからアプリを起動します。</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-label">右上の「🔄 同期」をタップ</div>
+              <div class="step-desc">スプレッドシートから最新データを取得します。ステータスバーが緑になれば取得完了です。</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <div class="step-label">各タブで内容を確認</div>
+              <div class="step-desc">概要・申込者・危険日程など各タブで情報を確認できます。</div>
+            </div>
+          </div>
+        </div>
+        <div class="note"><span class="note-icon">📡</span>データはリアルタイムには更新されません。最新情報を見るには都度「同期」ボタンを押してください。</div>
       </div>
     </div>
-    <div class="tab-item">
-      <div class="tab-icon">👥</div>
-      <div>
-        <div class="tab-name">申込者タブ</div>
-        <div class="tab-desc">全申込者の一覧を表示します。日程ボタンでフィルターすると、その日程の申込者だけを表示できます。第二希望への繰り上げ状況も確認できます。</div>
+    <div class="screen-wrap">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="mock-header">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><div class="mock-title">台灣料理教室 陳</div><div class="mock-sub">予約管理システム</div></div>
+              <div style="background:none;border:1px solid rgba(212,168,67,0.3);border-radius:5px;padding:3px 7px;font-size:7px;color:#c4a49a;">🔄 同期</div>
+            </div>
+          </div>
+          <div class="mock-status"><div class="mock-status-dot"></div>最終同期: 11:20 — 5件取得</div>
+          <div class="mock-tabs">
+            <div class="mock-tab active">📊<br>概要</div>
+            <div class="mock-tab">👥<br>申込者</div>
+            <div class="mock-tab">⚠️<br>危険</div>
+            <div class="mock-tab">🔄<br>移動</div>
+            <div class="mock-tab">✅<br>判断</div>
+            <div class="mock-tab">⚙️<br>管理</div>
+          </div>
+          <div class="mock-content">
+            <div class="mock-stat-grid">
+              <div class="mock-stat"><div class="mock-stat-num">5</div><div class="mock-stat-label">総申込者数</div></div>
+              <div class="mock-stat"><div class="mock-stat-num">15</div><div class="mock-stat-label">総参加人数</div></div>
+            </div>
+            <div style="font-size:7px;color:#8a6058;letter-spacing:0.1em;margin-bottom:6px;">日程別予約状況</div>
+            <div class="mock-date-card">
+              <div class="mock-badge"><div class="mock-badge-month">7月</div><div class="mock-badge-day">5</div><div class="mock-badge-dow">土</div></div>
+              <div class="mock-date-info"><div class="mock-date-name">7月5日（土）</div><div class="mock-date-meta">午前10時・定員6名</div><div class="mock-bar"><div class="mock-bar-fill" style="width:50%"></div></div></div>
+              <div class="mock-count"><div class="mock-count-num">3</div><div class="mock-count-label">/6名</div></div>
+            </div>
+            <div class="mock-date-card full">
+              <div class="mock-badge"><div class="mock-badge-month">7月</div><div class="mock-badge-day">19</div><div class="mock-badge-dow">土</div></div>
+              <div class="mock-date-info"><div class="mock-date-name">7月19日（土）<span class="mock-soldout">満席</span></div><div class="mock-date-meta">午前10時・定員6名</div><div class="mock-bar"><div class="mock-bar-fill full" style="width:100%"></div></div></div>
+              <div class="mock-count"><div class="mock-count-num">6</div><div class="mock-count-label">/6名</div></div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="tab-item">
-      <div class="tab-icon">⚠️</div>
-      <div>
-        <div class="tab-name">危険日程タブ</div>
-        <div class="tab-desc">同一日程に申し込んでいる人数が多い場合や、注意が必要な申込を表示します。定員超えのリスクがある日程を早期に把握できます。</div>
-      </div>
-    </div>
-    <div class="tab-item">
-      <div class="tab-icon">🔄</div>
-      <div>
-        <div class="tab-name">移動相談タブ</div>
-        <div class="tab-desc">日程変更を希望している申込者の一覧です。第二希望に自動繰り上げされた方も含まれます。</div>
-      </div>
-    </div>
-    <div class="tab-item">
-      <div class="tab-icon">✅</div>
-      <div>
-        <div class="tab-name">開催判断タブ</div>
-        <div class="tab-desc">各日程の開催・中止の判断を記録するタブです。参加人数が少ない場合など、開催判断の記録に使用します。</div>
-      </div>
-    </div>
-    <div class="tab-item">
-      <div class="tab-icon">⚙️</div>
-      <div>
-        <div class="tab-name">管理タブ</div>
-        <div class="tab-desc">日程の追加・編集・削除、満席状況の手動変更、新シーズンへのリセットを行います。通常の運用では使用頻度は低めです。</div>
-      </div>
+      <div class="screen-caption">概要タブ — 日程別の予約状況</div>
     </div>
   </div>
 </div>
 
-<!-- ===== Ⅲ 自動化機能 ===== -->
-<div id="auto" class="chapter-header">
-  <div class="chapter-header-title">Ⅲ　自動化機能について</div>
-  <div class="chapter-header-sub">AUTOMATION — 自動で行われる処理</div>
+<!-- Chapter 3 -->
+<div class="chapter" id="ch3">
+  <div class="chapter-header">
+    <div class="chapter-num">03</div>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Daily Operation</div>
+      <div class="chapter-title">申込者の確認</div>
+      <div class="chapter-desc">誰がいつ申し込んだか、どの日程に何名いるかを確認する方法です。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">申込者タブの使い方</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-label">「👥 申込者」タブをタップ</div>
+          <div class="step-desc">全申込者の一覧が表示されます。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-label">日程フィルターで絞り込む</div>
+          <div class="step-desc">上部のチップ（「7月5日」など）をタップすると、その日程の申込者だけ表示されます。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-label">カードをタップで詳細を確認</div>
+          <div class="step-desc">申込者カードをタップすると、参加人数・希望日程・備考・申込日時などの詳細が表示されます。</div>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><span class="note-icon">✅</span>複数名申込の場合、スプレッドシートでは1名につき1行で管理されています。例えば3名申込なら同じ名前が3行分記録されています。</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">危険日程タブ</div>
+    <p>「⚠️ 危険日程」タブでは、定員の75%以上に達している日程が自動で一覧表示されます。早めの対応が必要な日程をすぐに把握できます。</p>
+    <div class="color-legend">
+      <div class="color-item"><div class="color-swatch" style="background:#e74c3c;border-radius:50%"></div><div class="color-info"><div class="color-name">🔴 赤</div><div class="color-desc">満席（100%）</div></div></div>
+      <div class="color-item"><div class="color-swatch" style="background:#d4a843;border-radius:50%"></div><div class="color-info"><div class="color-name">🟡 黄</div><div class="color-desc">75%以上（要注意）</div></div></div>
+    </div>
+  </div>
 </div>
 
-<div class="section">
-  <p>このシステムにはGoogleフォームに申込が入るたびに自動で動く機能が備わっています。管理者が何もしなくても以下の処理が自動で行われます。</p>
+<!-- Chapter 4 -->
+<div class="chapter" id="ch4">
+  <div class="chapter-header">
+    <div class="chapter-num">04</div>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Daily Operation</div>
+      <div class="chapter-title">日程変更の対応</div>
+      <div class="chapter-desc">日程変更を希望している申込者の対応手順です。変更後は自動でメールが送信されます。</div>
+    </div>
+  </div>
 
-  <div class="highlight-box">
-    <div class="highlight-box-title">🤖 フォーム送信のたびに自動実行される処理</div>
-    <div class="flow">
-      <div class="flow-item">
-        <div class="flow-dot" style="background:var(--info)">①</div>
-        <div class="flow-content">
-          <div class="flow-title">定員チェック（第一希望のみ）</div>
-          <div class="flow-desc">第一希望の日程の申込人数を集計し、定員に達したか判定します。</div>
+  <div class="section">
+    <div class="section-title">日程変更の手順</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-label">「🔄 移動相談」タブをタップ</div>
+          <div class="step-desc">日程変更を希望している申込者の一覧が表示されます。希望しない場合は「日程変更の相談はありません」と表示されます。</div>
         </div>
       </div>
-      <div class="flow-item">
-        <div class="flow-dot" style="background:var(--info)">②</div>
-        <div class="flow-content">
-          <div class="flow-title">満席バッジの自動切り替え</div>
-          <div class="flow-desc">定員に達した日程は、アプリの概要タブに「満席」バッジが自動表示されます。</div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-label">「📅 日程を変更する」をタップ</div>
+          <div class="step-desc">変更したい申込者のカードにある黄色いボタンをタップします。</div>
         </div>
       </div>
-      <div class="flow-item">
-        <div class="flow-dot" style="background:var(--info)">③</div>
-        <div class="flow-content">
-          <div class="flow-title">フォームから満席日程を自動削除</div>
-          <div class="flow-desc">満席になった日程はGoogleフォームの選択肢から自動で削除されます。新しい申込者が誤って満席の日程を選べなくなります。</div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-label">移動先の日程を選択</div>
+          <div class="step-desc">空きがある日程のみ選択できます。満席の日程や空きが足りない日程は「選択不可」と表示されます。</div>
         </div>
       </div>
-      <div class="flow-item">
-        <div class="flow-dot" style="background:var(--info)">④</div>
-        <div class="flow-content">
-          <div class="flow-title">定員超えの方を第二希望に自動繰り上げ</div>
-          <div class="flow-desc">定員を超えた申込者は第一希望ではなく第二希望の日程に自動的に変更されます。先に申し込んだ方が優先されます。</div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-label">「この日程に変更してメールを送る」をタップ</div>
+          <div class="step-desc">スプレッドシートが更新され、申込者に変更確定メールが自動送信されます。</div>
         </div>
       </div>
-      <div class="flow-item">
-        <div class="flow-dot" style="background:var(--info)">⑤</div>
-        <div class="flow-content">
-          <div class="flow-title">繰り上げになった方へ自動メール送信</div>
-          <div class="flow-desc">第二希望に移動になった申込者へ「第一希望が満席のため第二希望に変更しました」という内容のメールが自動送信されます。</div>
+    </div>
+    <div class="warn"><span class="note-icon">⚠️</span>日程変更は元に戻せません。変更先の日程を十分確認してから実行してください。</div>
+  </div>
+</div>
+
+<!-- Chapter 5 -->
+<div class="chapter" id="ch5">
+  <div class="chapter-header">
+    <div class="chapter-num">05</div>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Daily Operation</div>
+      <div class="chapter-title">満席・受付状況の管理</div>
+      <div class="chapter-desc">満席フラグの手動操作と、自動満席判定の仕組みを説明します。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">自動満席判定の仕組み</div>
+    <p>フォームに申込が届くたびに自動で人数が集計され、定員に達すると以下が自動で実行されます。</p>
+    <ul>
+      <li>Googleフォームの選択肢からその日程が削除される</li>
+      <li>超過した申込者は第二・第三希望へ自動繰り上げ</li>
+      <li>繰り上げになった申込者に変更通知メールを自動送信</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">手動で満席・受付中を切り替える方法</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-label">「⚙️ 管理」タブをタップ</div>
+          <div class="step-desc">管理タブを開きます。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-label">「🚫 満席・受付状況の管理」セクションを確認</div>
+          <div class="step-desc">各日程に「受付中」または「🔴 満席中」のボタンが表示されています。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-label">ボタンをタップして切り替え</div>
+          <div class="step-desc">タップするたびに受付中↔満席中が切り替わります。Googleフォームの選択肢にも即時反映されます。</div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="alert alert-warn">
-    <span class="alert-icon">⚠️</span>
-    <div class="alert-body">
-      <div class="alert-title">第二希望がない方への対応</div>
-      <div class="alert-text">第二希望を「なし」と選んだ方が定員超えになった場合、自動繰り上げとメール送信は行われません。この場合は管理者が個別に連絡する必要があります。「移動相談」タブで確認できます。</div>
+<!-- Chapter 6 -->
+<div class="chapter" id="ch6">
+  <div class="chapter-header">
+    <div class="chapter-num">06</div>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Daily Operation</div>
+      <div class="chapter-title">開催判断の設定</div>
+      <div class="chapter-desc">各日程の開催・中止・検討中を設定する方法です。</div>
     </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">開催判断の操作手順</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-label">「✅ 開催判断」タブをタップ</div>
+          <div class="step-desc">全日程の一覧と現在のステータスが表示されます。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-label">ボタンをタップしてステータスを設定</div>
+          <div class="step-desc">「開催確定」「中止」「検討中」の3つから選びます。</div>
+        </div>
+      </div>
+    </div>
+    <div class="color-legend">
+      <div class="color-item"><div class="color-swatch" style="background:#d5f0e0;border:1px solid #2ecc71;"></div><div class="color-info"><div class="color-name">開催確定</div><div class="color-desc">開催が決まった日程</div></div></div>
+      <div class="color-item"><div class="color-swatch" style="background:#fdecea;border:1px solid #e74c3c;"></div><div class="color-info"><div class="color-name">中止</div><div class="color-desc">中止が決まった日程</div></div></div>
+      <div class="color-item"><div class="color-swatch" style="background:#f5e6c8;border:1px solid #d4a843;"></div><div class="color-info"><div class="color-name">検討中</div><div class="color-desc">まだ決まっていない日程（初期値）</div></div></div>
+    </div>
+    <div class="note"><span class="note-icon">💡</span>開催判断のデータはこのアプリ内にのみ保存されます。スプレッドシートには反映されません。</div>
   </div>
 </div>
 
-<!-- ===== Ⅳ 新シーズン移行 ===== -->
-<div id="newseason" class="chapter-header">
-  <div class="chapter-header-title">Ⅳ　新シーズン移行手順</div>
-  <div class="chapter-header-sub">NEW SEASON — 必ずこの順番で行ってください</div>
-</div>
-
-<div class="section">
-  <div class="alert alert-danger">
-    <span class="alert-icon">🚨</span>
-    <div class="alert-body">
-      <div class="alert-title">重要：順番を必ず守ってください</div>
-      <div class="alert-text">手順を間違えると、古いデータが残ったままになったり、フォームの選択肢が更新されない恐れがあります。不安な場合は担当者に相談してから行ってください。</div>
+<!-- Chapter 7 -->
+<div class="chapter" id="ch7">
+  <div class="chapter-header">
+    <div class="chapter-num">07</div>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Owner Operation</div>
+      <div class="chapter-title">日程の追加・編集・削除</div>
+      <div class="chapter-desc">新しい日程を追加したり、既存の日程を変更する方法です。変更はGoogleフォームにも即時反映されます。</div>
     </div>
   </div>
 
-  <div class="section-header">
-    <div class="section-title" style="font-size:16px;">STEP 1　申込データのバックアップ（推奨）</div>
-  </div>
-  <p>作業前に現在のデータを保存しておくことをお勧めします。</p>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text">Googleスプレッドシートを開く（ブックマークまたはGoogleドライブから）</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text">「フォームの回答1」シートのデータをコピーして、別のシートまたはファイルに貼り付けて保存</div>
-    </div>
-  </div>
-
-  <div class="divider" style="margin:24px 0;"></div>
-
-  <div class="section-header">
-    <div class="section-title" style="font-size:16px;">STEP 2　回答データの削除</div>
-  </div>
-
-  <div class="sheet-mock">
-    <div class="sheet-mock-bar">無題のスプレッドシート</div>
-    <div class="sheet-mock-tabs">
-      <div class="sheet-mock-tab active">フォームの回答1</div>
-      <div class="sheet-mock-tab">日程マスタ</div>
-    </div>
-    <table class="sheet-mock-table">
-      <thead>
-        <tr>
-          <th>タイムスタンプ</th>
-          <th>お名前</th>
-          <th>参加人数</th>
-          <th>希望日程（第一）</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>1行目はヘッダー行です</td><td colspan="3" style="color:#999;">← この行は削除しないでください</td></tr>
-        <tr class="sheet-highlight"><td>2026/06/01 10:23</td><td>山田 太郎</td><td>2名</td><td>7月5日（土）</td></tr>
-        <tr class="sheet-highlight"><td>2026/06/01 11:05</td><td>鈴木 花子</td><td>3名</td><td>7月12日（土）</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text">スプレッドシートの<strong>「フォームの回答1」タブ</strong>をクリック</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text"><strong>2行目の行番号</strong>をクリック（行全体が青くなる）</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text">最後のデータがある行まで <strong>Shiftキーを押しながら行番号をクリック</strong>（複数行が選択される）</div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-text">右クリック →<strong>「行を削除」</strong>をタップ</div>
+  <div class="section">
+    <div class="section-title">新しい日程を追加する</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-label">「⚙️ 管理」→「📅 日程の追加・編集」</div>
+          <div class="step-desc">管理タブを開き、「日程の追加・編集」セクションまでスクロールします。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-label">月・日・曜日・定員・開始時間を入力</div>
+          <div class="step-desc">例：月「8」、日「2」、曜日「土」、定員「6」、開始時間「午前10時」</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-label">「この日程を追加する」をタップ</div>
+          <div class="step-desc">日程マスタとGoogleフォームの選択肢に即時追加されます。</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="alert alert-warn">
-    <span class="alert-icon">⚠️</span>
-    <div class="alert-body">
-      <div class="alert-title">1行目（ヘッダー行）は削除しないでください</div>
-      <div class="alert-text">「タイムスタンプ」「お名前」などと書かれた1行目は残してください。削除すると新しいデータが正しく記録されません。</div>
-    </div>
-  </div>
-
-  <div class="divider" style="margin:24px 0;"></div>
-
-  <div class="section-header">
-    <div class="section-title" style="font-size:16px;">STEP 3　新しい日程を設定する</div>
-  </div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text">アプリを開いて<strong>「管理」タブ</strong>をタップ</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text">「日程の追加・編集」セクションで古い日程の<strong>「編集」</strong>または<strong>「削除」</strong>を行い、新しい日程を入力</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text"><strong>「保存する」</strong>をタップ</div>
-    </div>
-  </div>
-
-  <div class="divider" style="margin:24px 0;"></div>
-
-  <div class="section-header">
-    <div class="section-title" style="font-size:16px;">STEP 4　GASで testUpdateForm を実行する</div>
-  </div>
-
-  <div class="alert alert-danger">
-    <span class="alert-icon">🚨</span>
-    <div class="alert-body">
-      <div class="alert-title">この手順を忘れると、フォームの選択肢が古い日程のままになります</div>
-      <div class="alert-text">必ず実行してください。申込者が古い日程を選んでしまうトラブルの原因になります。</div>
-    </div>
-  </div>
-
-  <p>GASエディタ（Google Apps Script）でフォームの選択肢を新しい日程に更新します。</p>
-
-  <div class="gas-mock">
-    <div class="gas-mock-bar">
-      <div class="gas-mock-dot" style="background:#ff5f57;"></div>
-      <div class="gas-mock-dot" style="background:#febc2e;"></div>
-      <div class="gas-mock-dot" style="background:#28c840;"></div>
-      <div class="gas-mock-title">Apps Script — index</div>
-    </div>
-    <div class="gas-mock-toolbar">
-      <div class="gas-mock-run">▶ 実行</div>
-      <select class="gas-mock-select">
-        <option>testUpdateForm ← ここを選択</option>
-      </select>
-    </div>
-    <div class="gas-mock-code">
-      <span class="keyword">function</span> <span class="fn">testUpdateForm</span>() {<br>
-      &nbsp;&nbsp;updateFormChoices(getDates());<br>
-      }
-    </div>
-    <div class="gas-mock-log">
-      <div class="gas-mock-log-title">実行ログ</div>
-      <div class="gas-mock-log-item">お知らせ　実行開始</div>
-      <div class="gas-mock-log-item">お知らせ　実行完了 ← これが出れば成功</div>
-    </div>
-  </div>
-
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text">ブラウザで <strong>script.google.com</strong> を開く（または以前のタブから開く）</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text">画面上部のドロップダウンで <strong>「testUpdateForm」</strong> を選択する</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text"><strong>▶ 実行</strong> ボタンをクリックする</div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-text">画面下部の実行ログに <strong>「実行完了」</strong> と表示されれば成功</div>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-text">Googleフォームを開いて、希望日程の選択肢が新しい日程になっているか確認する</div>
-    </div>
-  </div>
-
-  <div class="divider" style="margin:24px 0;"></div>
-
-  <div class="section-header">
-    <div class="section-title" style="font-size:16px;">STEP 5　満席フラグをリセットする</div>
-  </div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text">アプリの<strong>「管理」タブ</strong>を開く</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text">ページ下部の<strong>「開催判断・満席フラグをリセット」</strong>ボタンをタップ</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text">確認ダイアログが出たら <strong>「リセット」</strong> をタップ</div>
-    </div>
-  </div>
-
-  <div class="alert alert-ok">
-    <span class="alert-icon">✅</span>
-    <div class="alert-body">
-      <div class="alert-title">これで新シーズンの準備完了です</div>
-      <div class="alert-text">アプリの同期ボタンを押して、概要タブに新しい日程が表示されることを確認してください。</div>
-    </div>
+  <div class="section">
+    <div class="section-title">既存の日程を編集・削除する</div>
+    <p>日程一覧の各カードにある「編集」ボタンで月・日・曜日・定員・時間を変更できます。「削除」ボタンでその日程を完全に削除します。どちらもGoogleフォームに即時反映されます。</p>
+    <div class="warn"><span class="note-icon">⚠️</span>削除した日程はGoogleフォームの選択肢からも消えます。すでに申込済みの方の記録はスプレッドシートに残りますが、アプリの集計からは除外されます。</div>
   </div>
 </div>
 
-<!-- ===== Ⅴ インストール ===== -->
-<div id="install" class="chapter-header">
-  <div class="chapter-header-title">Ⅴ　アプリのインストール方法</div>
-  <div class="chapter-header-sub">INSTALLATION — iPhone / Android 対応</div>
-</div>
-
-<div class="section">
-  <p>このアプリはホーム画面に追加することで、通常のアプリと同じように使用できます。iPhone（iOS）とAndroidスマートフォン、それぞれの手順をご確認ください。</p>
-
-  <div class="section-header">
-    <div class="section-title" style="font-size:16px;">予約管理アプリ</div>
-  </div>
-  <p style="margin-bottom:12px;">アプリURL：<strong>https://moto8s55.github.io/cooking-class/</strong></p>
-
-  <div class="os-grid">
-    <div class="os-card">
-      <div class="os-card-header ios">🍎 iPhone (iOS)</div>
-      <div class="os-card-body">
-        <div class="os-step"><span class="os-step-num">1</span>SafariでアプリURLを開く</div>
-        <div class="os-step"><span class="os-step-num">2</span>画面下部の「共有」ボタン（四角から矢印）をタップ</div>
-        <div class="os-step"><span class="os-step-num">3</span>「ホーム画面に追加」をタップ</div>
-        <div class="os-step"><span class="os-step-num">4</span>名前を確認して「追加」をタップ</div>
-      </div>
-    </div>
-    <div class="os-card">
-      <div class="os-card-header android">🤖 Android</div>
-      <div class="os-card-body">
-        <div class="os-step"><span class="os-step-num">1</span>ChromeでアプリURLを開く</div>
-        <div class="os-step"><span class="os-step-num">2</span>右上の「︙」メニューをタップ</div>
-        <div class="os-step"><span class="os-step-num">3</span>「ホーム画面に追加」をタップ</div>
-        <div class="os-step"><span class="os-step-num">4</span>「追加」をタップ</div>
-      </div>
+<!-- Chapter 8 -->
+<div class="chapter" id="ch8">
+  <div class="chapter-header">
+    <div class="chapter-num">08</div>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Owner Operation</div>
+      <div class="chapter-title">シーズンリセット</div>
+      <div class="chapter-desc">月が変わり新シーズンに移行する際の操作です。新しい日程を入力してから実行します。</div>
     </div>
   </div>
 
-  <div class="alert alert-warn">
-    <span class="alert-icon">⚠️</span>
-    <div class="alert-body">
-      <div class="alert-title">iPhoneはSafari、AndroidはChromeで開いてください</div>
-      <div class="alert-text">他のブラウザでは「ホーム画面に追加」が表示されない場合があります。</div>
+  <div class="section">
+    <div class="section-title">リセットで実行されること</div>
+    <div class="color-legend">
+      <div class="color-item"><div class="color-swatch" style="background:#fdecea;font-size:18px;display:flex;align-items:center;justify-content:center;">🗑️</div><div class="color-info"><div class="color-name">申込データの削除</div><div class="color-desc">スプレッドシートのフォーム回答シートのデータ行がすべて削除されます</div></div></div>
+      <div class="color-item"><div class="color-swatch" style="background:#f5e6c8;font-size:18px;display:flex;align-items:center;justify-content:center;">📋</div><div class="color-info"><div class="color-name">日程別シートの更新</div><div class="color-desc">シート名を新日程に変更・データ行をクリア・定員に合わせて太線を引き直し</div></div></div>
+      <div class="color-item"><div class="color-swatch" style="background:#d5f0e0;font-size:18px;display:flex;align-items:center;justify-content:center;">🔄</div><div class="color-info"><div class="color-name">フラグのリセット</div><div class="color-desc">満席フラグ・開催判断がすべてリセットされます</div></div></div>
+      <div class="color-item"><div class="color-swatch" style="background:#e8f0fe;font-size:18px;display:flex;align-items:center;justify-content:center;">📅</div><div class="color-info"><div class="color-name">フォームの更新</div><div class="color-desc">Googleフォームの希望日程の選択肢が新日程に自動更新されます</div></div></div>
     </div>
   </div>
 
-  <div class="section-header" style="margin-top:24px;">
-    <div class="section-title" style="font-size:16px;">操作マニュアル（このマニュアル）</div>
+  <div class="section">
+    <div class="section-title">シーズンリセットの手順</div>
+    <div class="reset-flow">
+      <div class="reset-step">
+        <div class="reset-step-icon">⚙️</div>
+        <div class="reset-step-body">
+          <div class="reset-step-label">「⚙️ 管理」タブを開く</div>
+          <div class="reset-step-desc">管理タブを開き、一番下の「🔁 シーズンリセット」セクションまでスクロールします。</div>
+        </div>
+      </div>
+      <div class="reset-step">
+        <div class="reset-step-icon">➕</div>
+        <div class="reset-step-body">
+          <div class="reset-step-label">新シーズンの日程を1件ずつ追加</div>
+          <div class="reset-step-desc">月・日・曜日・定員・開始時間を入力して「この日程を追加」を押します。新シーズンの全日程を入力してください。追加した日程は一覧に表示され、✕ボタンで削除も可能です。</div>
+        </div>
+      </div>
+      <div class="reset-step">
+        <div class="reset-step-icon">➡️</div>
+        <div class="reset-step-body">
+          <div class="reset-step-label">「次へ → 確認画面」をタップ</div>
+          <div class="reset-step-desc">日程を1件以上追加していないと次へ進めません。確認画面で実行内容と新日程の一覧が表示されます。</div>
+        </div>
+      </div>
+      <div class="reset-step">
+        <div class="reset-step-icon">🔁</div>
+        <div class="reset-step-body">
+          <div class="reset-step-label">「🔁 リセット実行」をタップ</div>
+          <div class="reset-step-desc">赤いボタンをタップするとリセットが始まります。「シーズンリセット中...」のローディング画面が表示され、完了すると「✅ シーズンリセット完了！フォームも更新しました」と表示されます。</div>
+        </div>
+      </div>
+    </div>
+    <div class="warn"><span class="note-icon">⚠️</span>この操作は元に戻せません。申込データが必要な場合は事前にスプレッドシートをダウンロードして保存しておいてください。</div>
+    <div class="tip"><span class="note-icon">💡</span>新旧の日程数が異なっても対応しています。新日程が旧日程より多い場合は不足分のシートを新規作成し、少ない場合は余ったシートを削除します。</div>
   </div>
-  <p style="margin-bottom:12px;">マニュアルURL：<strong>https://moto8s55.github.io/cooking-class/manual.html</strong></p>
 
-  <div class="os-grid">
-    <div class="os-card">
-      <div class="os-card-header ios">🍎 iPhone (iOS)</div>
-      <div class="os-card-body">
-        <div class="os-step"><span class="os-step-num">1</span>SafariでマニュアルURLを開く</div>
-        <div class="os-step"><span class="os-step-num">2</span>画面下部の「共有」ボタンをタップ</div>
-        <div class="os-step"><span class="os-step-num">3</span>「ホーム画面に追加」をタップ</div>
-        <div class="os-step"><span class="os-step-num">4</span>「追加」をタップ</div>
-      </div>
-    </div>
-    <div class="os-card">
-      <div class="os-card-header android">🤖 Android</div>
-      <div class="os-card-body">
-        <div class="os-step"><span class="os-step-num">1</span>ChromeでマニュアルURLを開く</div>
-        <div class="os-step"><span class="os-step-num">2</span>右上の「︙」メニューをタップ</div>
-        <div class="os-step"><span class="os-step-num">3</span>「ホーム画面に追加」をタップ</div>
-        <div class="os-step"><span class="os-step-num">4</span>「追加」をタップ</div>
-      </div>
-    </div>
+  <div class="section">
+    <div class="section-title">リセット後の確認事項</div>
+    <ul>
+      <li>概要タブで新日程が正しく表示されているか確認</li>
+      <li>Googleフォームを開いて選択肢が新日程になっているか確認</li>
+      <li>スプレッドシートの日程マスタに新日程が入っているか確認</li>
+    </ul>
   </div>
 </div>
 
-<!-- ===== Ⅵ 困ったときは ===== -->
-<div id="trouble" class="chapter-header">
-  <div class="chapter-header-title">Ⅵ　困ったときは</div>
-  <div class="chapter-header-sub">TROUBLESHOOTING</div>
-</div>
-
-<div class="section">
-  <div class="tab-list">
-    <div class="tab-item">
-      <div class="tab-icon">🔄</div>
-      <div>
-        <div class="tab-name">データが最新になっていない</div>
-        <div class="tab-desc">画面右上の「同期」ボタンをタップしてください。インターネット接続を確認してください。</div>
-      </div>
-    </div>
-    <div class="tab-item">
-      <div class="tab-icon">📝</div>
-      <div>
-        <div class="tab-name">フォームの選択肢が古い日程のまま</div>
-        <div class="tab-desc">GASエディタで <code style="background:rgba(0,0,0,0.06);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:12px;">testUpdateForm</code> を実行してください（第Ⅳ章STEP4参照）。</div>
-      </div>
-    </div>
-    <div class="tab-item">
-      <div class="tab-icon">🔴</div>
-      <div>
-        <div class="tab-name">満席なのにバッジが表示されない</div>
-        <div class="tab-desc">同期ボタンをタップしてください。それでも表示されない場合は、管理タブで手動で満席設定ができます。</div>
-      </div>
-    </div>
-    <div class="tab-item">
-      <div class="tab-icon">📧</div>
-      <div>
-        <div class="tab-name">繰り上げメールが届いていない</div>
-        <div class="tab-desc">申込者のメールアドレスが正しく入力されているか確認してください。スプレッドシートのH列（メールアドレス欄）を確認できます。</div>
-      </div>
-    </div>
-    <div class="tab-item">
-      <div class="tab-icon">🌐</div>
-      <div>
-        <div class="tab-name">アプリが開かない・エラーが出る</div>
-        <div class="tab-desc">インターネット接続を確認し、ブラウザのキャッシュをクリアしてから再度お試しください。改善しない場合は担当者にご連絡ください。</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== フッター ===== -->
+<!-- フッター -->
 <div class="footer">
-  <div class="footer-logo">台灣料理教室 陳</div>
-  <div class="footer-text">
-    予約管理システム 操作マニュアル<br>
-    2026年6月版
-  </div>
+  <div class="footer-title">台灣料理教室 陳｜予約管理システム</div>
+  <p>このマニュアルはシステムの操作方法を説明するものです。</p>
 </div>
 
-<!-- ページトップボタン -->
-<div class="page-top" id="pageTop" onclick="gotoSection('top')">▲</div>
+<a class="back-to-top" href="#top" title="トップへ戻る">↑</a>
 
-<script>
-function gotoSection(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
-
-window.addEventListener('scroll', function() {
-  const btn = document.getElementById('pageTop');
-  if (window.scrollY > 300) btn.classList.add('visible');
-  else btn.classList.remove('visible');
-});
-</script>
 </body>
 </html>
